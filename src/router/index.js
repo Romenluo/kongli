@@ -4,10 +4,11 @@ import Login from '@/view/sign-in'
 import Register from '@/view/sign-up'
 import Home from '@/view/home'
 import Show from '@/view/show'
-import WriteNote from '@/view/write-note'
-import ReadNote from '@/view/read-note'
+import Pull from '@/view/puan'
+import Personal from '@/view/personal'
 import Error from '@/view/error'
-Vue.use(Router);
+import About from '@/view/about'
+Vue.use(Router)
 
 export default new Router({
   routes: [
@@ -26,29 +27,34 @@ export default new Router({
       component: Register
     },
     {
-      path:'/error',
-      name:'Error',
-      component:Error
+      path: '/error',
+      name: 'Error',
+      component: Error
     },
     {
       path: '/home',
       name: 'Home',
       component: Home,
-      children:[
+      children: [
         {
           path: '/show',
           name: 'Show',
           component: Show
         },
         {
-          path: '/readNote',
-          name: 'ReadNote',
-          component: ReadNote
+          path: '/pull',
+          name: 'Pull',
+          component: Pull
         },
         {
-          path: '/writeNote',
-          name: 'WriteNote',
-          component: WriteNote
+          path: '/personal',
+          name: 'Personal',
+          component: Personal
+        },
+        {
+          path: '/about',
+          name: 'About',
+          component: About
         }
       ]
     }

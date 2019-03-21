@@ -11,13 +11,16 @@
           <Col span="16" class="nav-box">
             <Menu mode="horizontal" :theme="theme1" active-name="home" @on-select="selectItem">
               <MenuItem name="home">
-               首页
+                首页
               </MenuItem>
-              <MenuItem name="readNode">
-                日志
+              <MenuItem name="pull">
+                普安
               </MenuItem>
-              <MenuItem name="writeNote">
-                写日志
+              <MenuItem name="personal">
+                个人中心
+              </MenuItem>
+              <MenuItem name="about">
+                关于我们
               </MenuItem>
             </Menu>
           </Col>
@@ -36,7 +39,7 @@
       </Content>
       <Footer :style="{height:'80px',background:'#dedede',padding:'0px 0px'}">
         <div class="foot-box">
-          {{copyright}} 版权归Romen所有
+          {{copyright}} 版权归 Kong Li 所有
         </div>
       </Footer>
     </Layout>
@@ -45,28 +48,32 @@
 
 <script>
   export default {
-    name: "home",
+    name: 'home',
     data() {
       return {
         theme1: 'light',
         copyright: '\xA9',
-        user: {},
-
+        user: {}
       }
     },
     methods: {
-      selectItem(name){
-        console.log(name);
-        if(name=='home'){
+      selectItem(name) {
+        if (name == 'home') {
           this.$router.replace({path: '/show'});
         }
-        if(name=='readNode'){
-          this.$router.replace({path: '/readNote'});
+        if (name == 'pull') {
+          this.$router.replace({path: '/pull'});
         }
-        if(name=='writeNote'){
-          this.$router.replace({path: '/writeNote'});
+        if (name == 'personal') {
+          this.$router.replace({path: '/personal'});
+        }
+        if (name == 'about') {
+          this.$router.replace({path: '/about'});
         }
       },
+    },
+    created () {
+      this.$router.replace({path: '/show'});
     },
     mounted() {
       this.user = this.$route.params.user;
@@ -76,7 +83,7 @@
 
 <style lang="scss" scoped>
 
-  .ivu-menu{
+  .ivu-menu {
     font-size: 16px;
     background-color: #dedede;
   }
@@ -113,7 +120,7 @@
     display: flex;
     justify-content: flex-end;
     .wel-content {
-     // background-color: #C3D5ED;
+      // background-color: #C3D5ED;
     }
   }
 </style>
