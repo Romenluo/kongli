@@ -1,14 +1,14 @@
 <template>
   <div>
     <Layout>
-      <Header :style="{background:'#ffffff',height:'60px',background:'#dedede'}">
+      <Header class="header-box" >
         <Row>
           <Col span="4">
             <div class="log-box">
               <img src="../assets/images/log.png"/>
             </div>
           </Col>
-          <Col span="16" class="nav-box">
+          <Col span="17" class="nav-box">
             <Menu mode="horizontal" :theme="theme1" active-name="home" @on-select="selectItem">
               <MenuItem name="home">
                 首页
@@ -24,7 +24,7 @@
               </MenuItem>
             </Menu>
           </Col>
-          <Col span="4">
+          <Col span="3">
             <div class="is-login">
               <span class="wel-content">欢迎XXX，<a>退出</a></span>
             </div>
@@ -83,10 +83,21 @@
 
 <style lang="scss" scoped>
 
-  .ivu-menu {
-    font-size: 16px;
-    background-color: #dedede;
+  .header-box{
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    height: 60px;
+    background: #dedede;
+    z-index: 1000;
+    .ivu-menu {
+      display: flex;
+      justify-content: flex-end;
+      font-size: 18px;
+      background-color: #dedede;
+    }
   }
+
 
   @mixin log {
     height: 60px;
@@ -102,6 +113,8 @@
 
   .content-box {
     min-height: 500px;
+    margin-top: 60px;
+    background-color: #ffffff;
   }
 
   @mixin wh {

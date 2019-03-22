@@ -25,8 +25,8 @@
     </Carousel>
     <div class="pull-main">
       <div class="nav-title"></div>
-      <Tabs type="card" @click="clickNav(val)">
-        <Tab-pane v-for="item in category" :label="item.name" :key="item.id">
+      <Tabs type="card" @on-click="clickNav">
+        <Tab-pane v-for="item in category"  :label="item.name" :key="item.id">
           <div class="card-box" >
             <div class="tab-box" v-for="ite in content">
               {{item.name}}-->{{ite}}
