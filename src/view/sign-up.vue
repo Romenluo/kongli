@@ -112,15 +112,15 @@
               pageCode:this.formSignUp.code
             }
             let self = this;
-            this.$axios.post('/local/signUp',paramet).then(function (response) {
+            this.$axios.post('/local/user/signUp',paramet).then(function (response) {
               console.log(response.data);
-              let data = response.data;
+              /*let data = response.data;
               if(data.Case=="1"){
                 self.$Message.success(data.result);
                 self.$router.push({path: '/login'});
               }else {
                 self.$Message.error(data.result);
-              }
+              }*/
 
             }).catch(function (error) {
               console.log(error);
@@ -140,15 +140,14 @@
             return;
           }
           let parameter = {
-            userName:this.formSignUp.userName
+            "userName":this.formSignUp.userName
           }
           let self = this;
           //请求后台数据
-          this.$axios.post('/local/getValidate',parameter).then(function (response) {
-            alert(response.data);
-            self.$Message.success(response.data);
+          this.$axios.post('/local/user/verificationCode',parameter).then(function (response) {
+            console.log(response)
+            // self.$Message.success(response.data);
           }).catch(function (error) {
-            console.log(error);
             self.$Message.error("获取验证码失败");
           });
           var newtime=setInterval(()=>{

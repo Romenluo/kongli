@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <Layout>
       <Header class="header-box" >
         <Row>
@@ -26,10 +27,13 @@
           </Col>
           <Col span="3">
             <div class="is-login">
-              <span class="wel-content">欢迎XXX，<a>退出</a></span>
+              <div class="wel-content">
+                <span class="sing-box" @click="login">登录</span>
+                <span>|</span>
+                <span class="sing-box" @click="sigUp">注册</span>
+              </div>
             </div>
           </Col>
-
         </Row>
       </Header>
       <Content>
@@ -43,6 +47,28 @@
         </div>
       </Footer>
     </Layout>
+    <!--登录弹出框-->
+    <div class="login-box" v-show="loginModel">
+      <div class="login-content">
+        <div class="login-title">登录</div>
+        <span class="clear-icon" @click="clear"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+        <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
+          <FormItem prop="userName">
+            <Input type="text" size="large" v-model="formLogin.userName"  prefix="ios-contact" placeholder="请输入邮箱"/>
+          </FormItem>
+          <FormItem prop="password">
+            <Input type="password" size="large" v-model="formLogin.password"  prefix="ios-unlock" placeholder="请输入密码"/>
+          </FormItem>
+          <FormItem>
+            <div class="login-btn" @click="sigIn('formLogin')">
+              登录
+            </div>
+          </FormItem>
+        </Form>
+        <div class="register" @click="sigUp()">没有账号？去注册！</div>
+        <div class="register" @click="forgetPassword()">忘记密码？找回密码</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -53,7 +79,21 @@
       return {
         theme1: 'light',
         copyright: '\xA9',
-        user: {}
+        user: {},
+        loginModel: false,
+        formLogin: {
+          userName: '',
+          password: ''
+        },
+        ruleLogin: {
+          userName: [
+            {required: true, message: '用户名不能为空', trigger: 'blur'},
+            {type: 'email', message: '邮箱格式不正确', trigger: 'blur'}
+          ],
+          password: [
+            {required: true, message: '请输入密码', trigger: 'blur'}
+          ]
+        }
       }
     },
     methods: {
@@ -71,6 +111,32 @@
           this.$router.replace({path: '/about'});
         }
       },
+      /*点击登录按钮后弹出登录框*/
+      login(){
+        this.loginModel=true
+      },
+      /*点击登录按钮后登录。取消model框*/
+      sigIn(name){
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            this.loginModel=false
+          } else {
+            this.$Message.error('输入数据不符合要求');
+          }
+        })
+      },
+      /*登录取消按钮*/
+      clear(){
+        this.loginModel=false
+      },
+      sigUp(){
+        this.$router.push({path: '/register'});
+      },
+      // 忘记密码
+      forgetPassword(){
+
+      }
+
     },
     created () {
       this.$router.replace({path: '/show'});
@@ -134,6 +200,78 @@
     justify-content: flex-end;
     .wel-content {
       // background-color: #C3D5ED;
+      .sing-box{
+        &:hover{
+          cursor: pointer;
+          color: dodgerblue;
+        }
+
+      }
+    }
+  }
+  .login-box{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 2222;
+    top: 0px;
+    background: rgba(0, 0, 0, 0.5);
+    .login-content{
+      width: 45%;
+      height: 350px;
+      background-color:#fff;
+      opacity:1;
+      position: relative;
+      top: 120px;
+      left: 25%;
+      padding: 0px 8%;
+      border-radius: 10px;
+      .clear-icon{
+        display: inline-block;
+        width: 45px;
+        height: 45px;
+        font-size: 25px;
+        line-height: 45px;
+        text-align: center;
+        position: relative;
+        top: -45px;
+        right: -115%;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+      .login-title{
+        width: 100%;
+        height: 45px;
+        text-align: center;
+        font-size: 22px;
+        line-height: 45px;
+        letter-spacing: 10px;
+      }
+      .login-btn{
+        width: 100%;
+        height: 40px;
+        background-color: #2d8cf0;
+        border-radius: 5px;
+        margin: 0px auto;
+        line-height: 40px;
+        text-align: center;
+        font-size: 20px;
+        color: #fff;
+        letter-spacing: 15px;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      .register {
+        text-align: center;
+        height: 25px;
+        line-height: 25px;
+        &:hover {
+          cursor: pointer;
+          color: dodgerblue;
+        }
+      }
     }
   }
 </style>

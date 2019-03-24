@@ -6,6 +6,7 @@ import router from './router'
 import axios from 'axios'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
+import 'font-awesome/scss/font-awesome.scss'
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false;
 
