@@ -27,7 +27,11 @@
           </Col>
           <Col span="3">
             <div class="is-login">
-              <div class="wel-content">
+              <div class="wel-content" v-if="loginMessage.cases==1">
+                <span class="sing-box">欢迎{{loginMessage.user.petName}}</span>
+                <span class="sing-box" @click="sigUp">退出</span>
+              </div>
+              <div class="wel-content" v-else>
                 <span class="sing-box" @click="login">登录</span>
                 <span>|</span>
                 <span class="sing-box" @click="sigUp">注册</span>
@@ -166,8 +170,12 @@
     created () {
       this.$router.replace({path: '/show'});
     },
-    mounted() {
-      this.user = this.$route.params.user;
+    computed:{
+      loginMessage:{
+        get(){
+          return this.$store.state.message;
+        }
+      }
     }
   }
 </script>

@@ -53,9 +53,7 @@
             let self = this;
             this.$axios.post('/local/user/signIn',parame).then(function (response) {
               let data = response.data;
-              console.log(response);
               self.$store.commit('updateMessage',data);
-              //self.userMessage = data
               if(data.cases=="1"){
                 self.$Message.success(data.msg);
                 self.$router.push("/home");
