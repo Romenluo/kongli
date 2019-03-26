@@ -54,7 +54,7 @@
               let data = response.data;
               console.log(response);
               if(data.resCode=="1"){
-                self.$Message.success(data.resMsg);
+                self.$Message.success(data.msg);
                 let params={
                   name:"Home",
                   params:{

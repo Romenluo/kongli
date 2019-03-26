@@ -1,30 +1,18 @@
-# vue-demo
 
-> A Vue.js project
+### 说明文档
 
-## Build Setup
-
+#### 运行项目
 ``` bash
-# install dependencies
+# 项目初始化,安装依赖包
 npm install
 
-# serve with hot reload at localhost:8080
+# 开发环境运行项目
 npm run dev
 
-# build for production with minification
+# 项目打包
 npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
 ```
+#### 项目目录说明
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+ 

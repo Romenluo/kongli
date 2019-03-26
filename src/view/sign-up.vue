@@ -113,14 +113,14 @@
             }
             let self = this;
             this.$axios.post('/local/user/signUp',paramet).then(function (response) {
-              console.log(response.data);
-              /*let data = response.data;
-              if(data.Case=="1"){
-                self.$Message.success(data.result);
+              console.log(response);
+              let data = response.data;
+              if(data.cases=="1"){
+                self.$Message.success(data.msg);
                 self.$router.push({path: '/login'});
               }else {
-                self.$Message.error(data.result);
-              }*/
+                self.$Message.error(data.msg);
+              }
 
             }).catch(function (error) {
               console.log(error);
