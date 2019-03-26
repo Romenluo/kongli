@@ -29,7 +29,7 @@
             <div class="is-login">
               <div class="wel-content" v-if="loginMessage.cases==1">
                 <span class="sing-box">欢迎{{loginMessage.user.petName}}</span>
-                <span class="sing-box" @click="sigUp">退出</span>
+                <span class="sing-box" @click="logout">退出</span>
               </div>
               <div class="wel-content" v-else>
                 <span class="sing-box" @click="login">登录</span>
@@ -99,7 +99,8 @@
           password: [
             {required: true, message: '请输入密码', trigger: 'blur'}
           ]
-        }
+        },
+        loginMessage: this.$store.state.message
       }
     },
     methods: {
@@ -120,6 +121,9 @@
       /*点击登录按钮后弹出登录框*/
       login(){
         this.loginModel=true
+      },
+      logout(){
+        console.log("退出登录")
       },
       /*点击登录按钮后登录。取消model框*/
       sigIn(name){
@@ -169,14 +173,14 @@
     },
     created () {
       this.$router.replace({path: '/show'});
-    },
+    }/*,
     computed:{
       loginMessage:{
         get(){
           return this.$store.state.message;
         }
       }
-    }
+    }*/
   }
 </script>
 
