@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Icon type="checkmark" size="20px"></Icon>
+    <i-button type="primary" @click="getMessage">获取数据</i-button>
     <i-button type="primary" @click="modal1 = true">显示对话框</i-button>
     <Modal
       :visible.sync="modal1"
@@ -27,6 +27,14 @@
       },
       cancel() {
         this.$Message.info('点击了取消');
+      },
+      getMessage(){
+        console.log(this.userMessage)
+      }
+    },
+    computed: {
+      userMessage () {
+        return this.$store.state.message
       }
     }
   }

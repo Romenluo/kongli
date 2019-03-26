@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import iView from 'iview';
+import store from './store/index'
 import 'iview/dist/styles/iview.css';
 import 'font-awesome/scss/font-awesome.scss'
 Vue.prototype.$axios = axios;
@@ -16,6 +17,7 @@ Vue.use(iView);
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

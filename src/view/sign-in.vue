@@ -39,6 +39,7 @@
             {required: true, message: '请输入密码', trigger: 'blur'}
           ]
         }
+
       }
     },
     methods: {
@@ -50,23 +51,20 @@
               password:this.formLogin.password
             };
             let self = this;
-            this.$axios.post('/local/signIn',parame).then(function (response) {
+            this.$axios.post('/local/user/signIn',parame).then(function (response) {
               let data = response.data;
               console.log(response);
-              if(data.resCode=="1"){
+              self.$store.commit('updateMessage',data);
+              //self.userMessage = data
+              if(data.cases=="1"){
                 self.$Message.success(data.msg);
-                let params={
-                  name:"Home",
-                  params:{
-                    user:data
-                  }
-                };
-                self.$router.push(params);
+                self.$router.push("/home");
               }else {
-                self.$Message.error(data.resMsg);
+                self.$Message.error(data.msg);
               }
             }).catch(function (error) {
               self.$Message.error('服务器异常');
+              console.log(error)
             });
           } else {
             this.$Message.error('输入数据不符合要求');
@@ -80,7 +78,14 @@
       forgetPassword(){
         this.$router.push({path: '/show'});
       }
-    }
+    },
+    /*computed:{//监听变量的变化
+      userMessage:{
+        set(value){
+          this.$store.commit('updateMessage',value);
+        }
+      }
+    }*/
 
   }
 </script>
@@ -96,7 +101,7 @@
   .login-box {
     width: 35%;
     height: 300px;
-    margin: 100px auto 0px auto;
+    margin: 80px auto 0px auto;
     padding-left: 40px;
     padding-right: 40px;
     border: 1px solid #dedede;
@@ -112,7 +117,7 @@
       line-height: 60px;
     }
     .btn {
-      width: 60%;
+      width: 100%;
       height: 40px;
       background-color: #2d8cf0;
       border-radius: 5px;

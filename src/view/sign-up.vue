@@ -25,8 +25,6 @@
                 </div>
               </Col>
             </Row>
-
-
           </div>
         </FormItem>
 
@@ -34,7 +32,7 @@
           <div class="btn" @click="submit('formSignUp')">
             注册
           </div>
-          <!--<Button type="primary" size="large" >登录</Button>-->
+          <div @click="login">登录</div>
         </FormItem>
       </Form>
     </div>
@@ -162,6 +160,9 @@
           },1000);
         }
       },
+      login(){
+        this.$router.push({path: '/login'});
+      }
     }
   }
 </script>

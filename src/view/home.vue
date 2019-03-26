@@ -52,21 +52,23 @@
       <div class="login-content">
         <div class="login-title">登录</div>
         <span class="clear-icon" @click="clear"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
-        <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
-          <FormItem prop="userName">
-            <Input type="text" size="large" v-model="formLogin.userName"  prefix="ios-contact" placeholder="请输入邮箱"/>
-          </FormItem>
-          <FormItem prop="password">
-            <Input type="password" size="large" v-model="formLogin.password"  prefix="ios-unlock" placeholder="请输入密码"/>
-          </FormItem>
-          <FormItem>
-            <div class="login-btn" @click="sigIn('formLogin')">
-              登录
-            </div>
-          </FormItem>
-        </Form>
-        <div class="register" @click="sigUp()">没有账号？去注册！</div>
-        <div class="register" @click="forgetPassword()">忘记密码？找回密码</div>
+        <div class="form-content">
+          <Form ref="formLogin" :model="formLogin" :rules="ruleLogin" >
+            <FormItem prop="userName">
+              <Input type="text" size="large" v-model="formLogin.userName"  prefix="ios-contact" placeholder="请输入邮箱"/>
+            </FormItem>
+            <FormItem prop="password">
+              <Input type="password" size="large" v-model="formLogin.password"  prefix="ios-unlock" placeholder="请输入密码"/>
+            </FormItem>
+            <FormItem>
+              <div class="login-btn" @click="sigIn('formLogin')">
+                登录
+              </div>
+            </FormItem>
+          </Form>
+          <div class="register" @click="sigUp()">没有账号？去注册！</div>
+          <div class="register" @click="forgetPassword()">忘记密码？找回密码</div>
+        </div>
       </div>
     </div>
   </div>
@@ -119,7 +121,30 @@
       sigIn(name){
         this.$refs[name].validate((valid) => {
           if (valid) {
-            this.loginModel=false
+
+            if (valid) {
+              let parame = {
+                username:this.formLogin.userName,
+                password:this.formLogin.password
+              };
+              let self = this;
+              this.$axios.post('/local/user/signIn',parame).then(function (response) {
+                let data = response.data;
+                console.log(response);
+                self.$store.commit('updateMessage',data);
+                if(data.cases=="1"){
+                  self.$Message.success(data.msg);
+                  self.loginModel=false
+                }else {
+                  self.$Message.error(data.msg);
+                }
+              }).catch(function (error) {
+                self.$Message.error('服务器异常');
+                console.log(error)
+              });
+            } else {
+              this.$Message.error('输入数据不符合要求');
+            }
           } else {
             this.$Message.error('输入数据不符合要求');
           }
@@ -218,24 +243,24 @@
     background: rgba(0, 0, 0, 0.5);
     .login-content{
       width: 45%;
-      height: 350px;
+      height: 300px;
       background-color:#fff;
       opacity:1;
       position: relative;
-      top: 120px;
+      top: 80px;
       left: 25%;
-      padding: 0px 8%;
+      padding: 0px 7%;
       border-radius: 10px;
       .clear-icon{
         display: inline-block;
         width: 45px;
         height: 45px;
-        font-size: 25px;
+        font-size: 32px;
         line-height: 45px;
         text-align: center;
         position: relative;
         top: -45px;
-        right: -115%;
+        right: -111%;
         &:hover{
           cursor: pointer;
         }
@@ -248,30 +273,36 @@
         line-height: 45px;
         letter-spacing: 10px;
       }
-      .login-btn{
-        width: 100%;
-        height: 40px;
-        background-color: #2d8cf0;
-        border-radius: 5px;
-        margin: 0px auto;
-        line-height: 40px;
-        text-align: center;
-        font-size: 20px;
-        color: #fff;
-        letter-spacing: 15px;
-        &:hover {
-          cursor: pointer;
+      .form-content{
+        position: relative;
+        top: -45px;
+        overflow: hidden;
+        .login-btn{
+          width: 100%;
+          height: 40px;
+          background-color: #2d8cf0;
+          border-radius: 5px;
+          margin: 0px auto;
+          line-height: 40px;
+          text-align: center;
+          font-size: 20px;
+          color: #fff;
+          letter-spacing: 15px;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+        .register {
+          text-align: center;
+          height: 25px;
+          line-height: 25px;
+          &:hover {
+            cursor: pointer;
+            color: dodgerblue;
+          }
         }
       }
-      .register {
-        text-align: center;
-        height: 25px;
-        line-height: 25px;
-        &:hover {
-          cursor: pointer;
-          color: dodgerblue;
-        }
-      }
+
     }
   }
 </style>
