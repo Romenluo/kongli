@@ -2,7 +2,7 @@
   <div>
 
     <Layout>
-      <Header class="header-box" >
+      <Header class="header-box">
         <Row>
           <Col span="4">
             <div class="log-box">
@@ -29,7 +29,7 @@
             <div class="is-login">
               <div class="wel-content" v-if="loginMessage.cases==1">
                 <span class="sing-box">欢迎{{loginMessage.user.petName}}</span>
-                <span class="sing-box" @click="logout">退出</span>
+                <span class="sing-box logout" @click="logout">退出</span>
               </div>
               <div class="wel-content" v-else>
                 <span class="sing-box" @click="login">登录</span>
@@ -57,12 +57,12 @@
         <div class="login-title">登录</div>
         <span class="clear-icon" @click="clear"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
         <div class="form-content">
-          <Form ref="formLogin" :model="formLogin" :rules="ruleLogin" >
+          <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
             <FormItem prop="userName">
-              <Input type="text" size="large" v-model="formLogin.userName"  prefix="ios-contact" placeholder="请输入邮箱"/>
+              <Input type="text" size="large" v-model="formLogin.userName" prefix="ios-contact" placeholder="请输入邮箱"/>
             </FormItem>
             <FormItem prop="password">
-              <Input type="password" size="large" v-model="formLogin.password"  prefix="ios-unlock" placeholder="请输入密码"/>
+              <Input type="password" size="large" v-model="formLogin.password" prefix="ios-unlock" placeholder="请输入密码"/>
             </FormItem>
             <FormItem>
               <div class="login-btn" @click="sigIn('formLogin')">
@@ -99,8 +99,7 @@
           password: [
             {required: true, message: '请输入密码', trigger: 'blur'}
           ]
-        },
-        loginMessage: this.$store.state.message
+        }
       }
     },
     methods: {
@@ -119,31 +118,38 @@
         }
       },
       /*点击登录按钮后弹出登录框*/
-      login(){
-        this.loginModel=true
+      login() {
+        this.loginModel = true
       },
-      logout(){
-        console.log("退出登录")
+      logout() {
+        let self = this;
+        this.$axios.post('/local/user/logout').then(function (response) {
+          let data = response.data;
+          console.log(response);
+          self.$store.commit('updateMessage', data);
+        }).catch(function (error) {
+          self.$Message.error('服务器异常');
+        });
       },
       /*点击登录按钮后登录。取消model框*/
-      sigIn(name){
+      sigIn(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
 
             if (valid) {
               let parame = {
-                username:this.formLogin.userName,
-                password:this.formLogin.password
+                username: this.formLogin.userName,
+                password: this.formLogin.password
               };
               let self = this;
-              this.$axios.post('/local/user/signIn',parame).then(function (response) {
+              this.$axios.post('/local/user/signIn', parame).then(function (response) {
                 let data = response.data;
                 console.log(response);
-                self.$store.commit('updateMessage',data);
-                if(data.cases=="1"){
+                self.$store.commit('updateMessage', data);
+                if (data.cases == "1") {
                   self.$Message.success(data.msg);
-                  self.loginModel=false
-                }else {
+                  self.loginModel = false
+                } else {
                   self.$Message.error(data.msg);
                 }
               }).catch(function (error) {
@@ -159,34 +165,34 @@
         })
       },
       /*登录取消按钮*/
-      clear(){
-        this.loginModel=false
+      clear() {
+        this.loginModel = false
       },
-      sigUp(){
+      sigUp() {
         this.$router.push({path: '/register'});
       },
       // 忘记密码
-      forgetPassword(){
+      forgetPassword() {
 
       }
 
     },
-    created () {
+    created() {
       this.$router.replace({path: '/show'});
-    }/*,
-    computed:{
-      loginMessage:{
-        get(){
+    },
+    computed: {
+      loginMessage: {
+        get() {
           return this.$store.state.message;
         }
       }
-    }*/
+    }
   }
 </script>
 
 <style lang="scss" scoped>
 
-  .header-box{
+  .header-box {
     position: fixed;
     top: 0px;
     width: 100%;
@@ -200,7 +206,6 @@
       background-color: #dedede;
     }
   }
-
 
   @mixin log {
     height: 60px;
@@ -237,33 +242,37 @@
     justify-content: flex-end;
     .wel-content {
       // background-color: #C3D5ED;
-      .sing-box{
-        &:hover{
+      .sing-box {
+        &:hover {
           cursor: pointer;
           color: dodgerblue;
         }
-
+      }
+      .logout {
+        color: #2baee9;
+        margin-left: 5px;
       }
     }
   }
-  .login-box{
+
+  .login-box {
     position: fixed;
     width: 100%;
     height: 100%;
     z-index: 2222;
     top: 0px;
     background: rgba(0, 0, 0, 0.5);
-    .login-content{
+    .login-content {
       width: 45%;
       height: 300px;
-      background-color:#fff;
-      opacity:1;
+      background-color: #fff;
+      opacity: 1;
       position: relative;
       top: 80px;
       left: 25%;
       padding: 0px 7%;
       border-radius: 10px;
-      .clear-icon{
+      .clear-icon {
         display: inline-block;
         width: 45px;
         height: 45px;
@@ -273,11 +282,11 @@
         position: relative;
         top: -45px;
         right: -111%;
-        &:hover{
+        &:hover {
           cursor: pointer;
         }
       }
-      .login-title{
+      .login-title {
         width: 100%;
         height: 45px;
         text-align: center;
@@ -285,11 +294,11 @@
         line-height: 45px;
         letter-spacing: 10px;
       }
-      .form-content{
+      .form-content {
         position: relative;
         top: -45px;
         overflow: hidden;
-        .login-btn{
+        .login-btn {
           width: 100%;
           height: 40px;
           background-color: #2d8cf0;
