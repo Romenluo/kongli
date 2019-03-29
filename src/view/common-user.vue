@@ -65,7 +65,34 @@
           </div>
           <!--修改密码页面-->
           <div v-if="nav=='updatePassword'" class="update-password">
-            修改密码
+            <!--********************************************-->
+            <div class="password-title">修改密码</div>
+            <div class="form-box">
+              <i-form :label-width="120">
+                <Form-item label="旧密码">
+                  <i-input v-model="email" placeholder="请输入旧密码"></i-input>
+                </Form-item>
+                <Form-item label="新密码">
+                  <i-input v-model="petName"  placeholder="请输入新密码"></i-input>
+                </Form-item>
+                <Form-item label="确认密码">
+                  <i-input v-model="qq" placeholder="请输入验证密码"></i-input>
+                </Form-item>
+                <Row>
+                  <i-col span="12">
+                    <Form-item label="验证码">
+                      <i-input v-model="qq" placeholder="请输入验证码"></i-input>
+                    </Form-item>
+                  </i-col>
+                  <i-col span="12">
+                    <div class="time-btn" @click="getCodeTest">
+                      {{codeText}}
+                    </div>
+                  </i-col>
+                </Row>
+              </i-form>
+            </div>
+            <!--********************************************-->
           </div>
         </div>
       </i-col>
@@ -84,7 +111,9 @@
         email: '',
         petName: '',
         qq: '',
-        roleNam: ''
+        roleNam: '',
+        codeText: "获取验证码",
+        startTime:60,
       }
     },
     methods: {
@@ -116,7 +145,34 @@
         }).catch(function (error) {
           self.$Message.error("获取验证码失败");
         });
+      },
+      /********************************************************/
+      getCodeTest(){
+          if(this.startTime<60){
+            return;
+          }
+          /*let parameter = {
+            userName:this.formSignUp.userName
+          }
+          let self = this;
+          this.$axios.post('/local/user/verificationCode',parameter).then(function (response) {
+            console.log(response)
+            self.$Message.success(response.data.msg);
+          }).catch(function (error) {
+            self.$Message.error("获取验证码失败");
+          });*/
+          var newtime=setInterval(()=>{
+            if(this.startTime<=0){
+              this.startTime=60;
+              clearInterval(newtime);
+              this.codeText='获取验证码'
+            }else{
+              this.startTime--;
+              this.codeText = this.startTime+'秒重新获取';
+            }
+          },1000);
       }
+      /********************************************************************/
     },
     computed:{
       loginMessage:{
@@ -186,5 +242,32 @@
         }
       }
     }
+    /****************************************/
+    .update-password{
+      width: 60%;
+      margin: 0px auto;
+      .password-title{
+        height: 60px;
+        font-size: 22px;
+        text-align: center;
+        line-height: 60px;
+      }
+      .form-box{
+        margin-top: 20px;
+        .time-btn{
+          width: 60%;
+          height: 35px;
+          line-height: 35px;
+          text-align: center;
+          margin: 0px auto;
+          border: 1px solid #dedede;
+          border-radius: 15px;
+          &:hover{
+            cursor: pointer;
+          }
+        }
+      }
+    }
+    /***********************************/
   }
 </style>

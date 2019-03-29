@@ -32,7 +32,6 @@
           <div class="btn" @click="submit('formSignUp')">
             注册
           </div>
-          <div @click="login">登录</div>
         </FormItem>
       </Form>
     </div>
@@ -138,7 +137,7 @@
             return;
           }
           let parameter = {
-            "userName":this.formSignUp.userName
+            userName:this.formSignUp.userName
           }
           let self = this;
           //请求后台数据

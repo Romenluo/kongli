@@ -4,22 +4,22 @@
               :autoplay-speed="3000">
       <Carousel-item>
         <div class="image-item">
-          <img src="../assets/images/home/home1.jpg"/>
+          <img src="../assets/images/home/photo3..jpg"/>
         </div>
       </Carousel-item>
       <Carousel-item>
         <div class="image-item">
-          <img src="../assets/images/home/home2.png"/>
+          <img src="../assets/images/home/photo4..jpg"/>
         </div>
       </Carousel-item>
       <Carousel-item>
         <div class="image-item">
-          <img src="../assets/images/home/home3.jpg"/>
+          <img src="../assets/images/home/photo1.jpg"/>
         </div>
       </Carousel-item>
       <Carousel-item>
         <div class="image-item">
-          <img src="../assets/images/home/home4.jpg"/>
+          <img src="../assets/images/home/photo2.jpg"/>
         </div>
       </Carousel-item>
     </Carousel>
