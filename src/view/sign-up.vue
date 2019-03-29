@@ -144,7 +144,7 @@
           //请求后台数据
           this.$axios.post('/local/user/verificationCode',parameter).then(function (response) {
             console.log(response)
-            // self.$Message.success(response.data);
+            self.$Message.success(response.data.msg);
           }).catch(function (error) {
             self.$Message.error("获取验证码失败");
           });
