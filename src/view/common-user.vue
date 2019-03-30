@@ -3,17 +3,18 @@
     <!--此页面为普通用户信息页面，显示用户信息，用户修改密码，修改个人信息等-->
     <Row>
       <i-col span="5" style="overflow: hidden">
-        <Menu :theme="theme3" active-name='personalInfo' @on-select="selectNav" width="100%" style="background-color: #ffffff">
+        <Menu :theme="theme3" active-name='personalInfo' @on-select="selectNav" width="100%"
+              style="background-color: #ffffff">
           <Menu-group title="个人信息管理">
             <Menu-item name="personalInfo">
               <Icon type="document-text"></Icon>
               查看个人信息
             </Menu-item>
-            <Menu-item name="updateInfo" >
+            <Menu-item name="updateInfo">
               <Icon type="chatbubbles"></Icon>
               修改个人信息
             </Menu-item>
-            <Menu-item name="updatePassword" >
+            <Menu-item name="updatePassword">
               <Icon type="chatbubbles"></Icon>
               修改密码
             </Menu-item>
@@ -48,10 +49,10 @@
             <div class="form-box">
               <i-form :label-width="120">
                 <Form-item label="邮箱">
-                  <i-input v-model="email" disabled   placeholder="请输入邮箱"></i-input>
+                  <i-input v-model="email" disabled placeholder="请输入邮箱"></i-input>
                 </Form-item>
                 <Form-item label="昵称">
-                  <i-input v-model="petName"  placeholder="请输入昵称"></i-input>
+                  <i-input v-model="petName" placeholder="请输入昵称"></i-input>
                 </Form-item>
                 <Form-item label="QQ">
                   <i-input v-model="qq" placeholder="请输入qq"></i-input>
@@ -68,20 +69,20 @@
             <!--********************************************-->
             <div class="password-title">修改密码</div>
             <div class="form-box">
-              <i-form :label-width="120">
-                <Form-item label="旧密码">
-                  <i-input v-model="email" placeholder="请输入旧密码"></i-input>
+              <i-form ref="updatePassword" :model="updatePassword" :rules="ruleUpdatePass" :label-width="120">
+                <Form-item label="旧密码" prop="oldPassword">
+                  <i-input type="password" v-model="updatePassword.oldPassword" placeholder="请输入旧密码"></i-input>
                 </Form-item>
-                <Form-item label="新密码">
-                  <i-input v-model="petName"  placeholder="请输入新密码"></i-input>
+                <Form-item label="新密码" prop="newPassword">
+                  <i-input type="password" v-model="updatePassword.newPassword" placeholder="请输入新密码"></i-input>
                 </Form-item>
-                <Form-item label="确认密码">
-                  <i-input v-model="qq" placeholder="请输入验证密码"></i-input>
+                <Form-item label="确认密码" prop="confirm">
+                  <i-input type="password" v-model="updatePassword.confirm" placeholder="请输入验证密码"></i-input>
                 </Form-item>
                 <Row>
                   <i-col span="12">
                     <Form-item label="验证码">
-                      <i-input v-model="qq" placeholder="请输入验证码"></i-input>
+                      <i-input v-model="updatePassword.code" placeholder="请输入验证码"></i-input>
                     </Form-item>
                   </i-col>
                   <i-col span="12">
@@ -90,6 +91,9 @@
                     </div>
                   </i-col>
                 </Row>
+                <Form-item>
+                  <i-button type="primary" @click="updateBtn('updatePassword')">提交</i-button>
+                </Form-item>
               </i-form>
             </div>
             <!--********************************************-->
@@ -105,40 +109,80 @@
   export default {
     name: "common-user",
     data() {
+      const validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else {
+          if (this.updatePassword.confirm !== '') {
+            // 对第二个密码框单独验证
+            this.$refs.updatePassword.validateField('confirm');
+          }
+          callback();
+        }
+      };
+      const validatePassCheck = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.updatePassword.newPassword) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
       return {
-        theme3:'light',
+        theme3: 'light',
         nav: 'personalInfo',
         email: '',
         petName: '',
         qq: '',
         roleNam: '',
         codeText: "获取验证码",
-        startTime:60,
+        startTime: 60,
+        updatePassword: {
+          oldPassword: '',
+          newPassword: '',
+          confirm: '',
+          code: ''
+        },
+        ruleUpdatePass: {
+          oldPassword: [
+            {required: true, message: '旧密码不能为空', trigger: 'blur'}
+            /*{validator: this.oldPass, trigger: 'blur'}*/
+          ],
+          newPassword: [
+            {required: true, message: '新密码不能为空', trigger: 'blur'},
+            {validator: validatePass, trigger: 'blur'}
+          ],
+          confirm: [
+            {required: true, message: '确认密码不能为空', trigger: 'blur'},
+            {validator: validatePassCheck, trigger: 'blur'}
+          ],
+          code: [
+            {required: true, message: '确认密码不能为空', trigger: 'blur'},
+          ]
+        }
       }
     },
     methods: {
-      selectNav(name){
+      selectNav(name) {
         this.nav = name
-        if(this.nav=='updateInfo'){
-          this.email = this.loginMessage.user.email
-          this.petName = this.loginMessage.user.petName
-          this.qq = this.loginMessage.user.qq
-          this.roleNam = this.loginMessage.user.role.name
-        }
+        this.email = this.loginMessage.user.email
+        this.petName = this.loginMessage.user.petName
+        this.qq = this.loginMessage.user.qq
+        this.roleNam = this.loginMessage.user.role.name
       },
       /**
        * 修改用户信息
        */
-      updatePersonal(){
-        let parameter={
+      updatePersonal() {
+        let parameter = {
           email: this.email,
           petName: this.petName,
           qq: this.qq,
-          roleId:this.loginMessage.role
+          roleId: this.loginMessage.role
         }
         let self = this
-        this.$axios.post('/local/user/updateInfo',parameter).then(function (response) {
-          console.log(response)
+        this.$axios.post('/local/user/updateInfo', parameter).then(function (response) {
           let data = response.data
           self.$Message.success(data.msg);
           self.$store.commit('updateMessage', data);
@@ -147,36 +191,84 @@
         });
       },
       /********************************************************/
-      getCodeTest(){
-          if(this.startTime<60){
-            return;
+      getCodeTest() {
+        if (this.startTime < 60) {
+          return;
+        }
+        let parameter = {
+          userName:this.email
+        }
+        let self = this;
+        this.$axios.post('/local/user/verificationCode',parameter).then(function (response) {
+          console.log(response)
+          self.$Message.success(response.data.msg);
+        }).catch(function (error) {
+          self.$Message.error("获取验证码失败"+error);
+        });
+        var newtime = setInterval(() => {
+          if (this.startTime <= 0) {
+            this.startTime = 60;
+            clearInterval(newtime);
+            this.codeText = '获取验证码'
+          } else {
+            this.startTime--;
+            this.codeText = this.startTime + '秒重新获取';
           }
-          /*let parameter = {
-            userName:this.formSignUp.userName
-          }
-          let self = this;
-          this.$axios.post('/local/user/verificationCode',parameter).then(function (response) {
-            console.log(response)
-            self.$Message.success(response.data.msg);
-          }).catch(function (error) {
-            self.$Message.error("获取验证码失败");
-          });*/
-          var newtime=setInterval(()=>{
-            if(this.startTime<=0){
-              this.startTime=60;
-              clearInterval(newtime);
-              this.codeText='获取验证码'
-            }else{
-              this.startTime--;
-              this.codeText = this.startTime+'秒重新获取';
+        }, 1000);
+      },
+      /**
+       * 点击修改按钮就修改密码
+       * */
+      updateBtn(name) {
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            let parameter = {
+              email: this.email,
+              oldPassword: this.updatePassword.oldPassword,
+              newPassword: this.updatePassword.newPassword,
+              code: this.updatePassword.code
             }
-          },1000);
+            let self = this
+            this.$axios.post('/local/user/updatePassword', parameter).then(function (response) {
+              console.log(response)
+              let data = response.data
+              self.$Message.success(data.msg)
+              /*if(data.cases=='1'){
+                self.$Message.success(data.msg)
+              }else{
+                self.$Message.error(data.ms)
+              }*/
+            }).catch(function (error) {
+              self.$Message.error("服务器出错"+error);
+            });
+          } else {
+            this.$Message.error('表单验证失败!');
+          }
+        })
+      },
+      oldPass() {
+        let parameter = {
+          email: this.email,
+          oldPassword: this.updatePassword.oldPassword
+        }
+        let self = this
+        this.$axios.post('/local/user/verificationOldPassword', parameter).then(function (response) {
+          console.log(response)
+          let data = response.data
+          if(data.cases=='1'){
+            self.$Message.success(data.msg)
+          }else{
+            self.$Message.error(data.ms)
+          }
+        }).catch(function (error) {
+          self.$Message.error("服务器出错"+error);
+        });
       }
       /********************************************************************/
     },
-    computed:{
-      loginMessage:{
-        get(){
+    computed: {
+      loginMessage: {
+        get() {
           return this.$store.state.message;
         }
       }
@@ -186,28 +278,28 @@
 
 <style lang="scss" scoped>
 
-  .personal-box{
+  .personal-box {
     min-height: 500px;
     border-left: 1px solid #dcdee2;
-    .personal-info{
+    .personal-info {
       width: 80%;
       margin: 0px auto;
-      .personal-title{
+      .personal-title {
         height: 60px;
         font-size: 22px;
         text-align: center;
         line-height: 60px;
       }
-      .personal-text-box{
+      .personal-text-box {
         margin-top: 20px;
         font-size: 18px;
         padding: 5px 0px;
-        .label-box{
+        .label-box {
           text-align: right;
           display: inline-block;
           width: 40%;
         }
-        .content-box{
+        .content-box {
           padding-left: 20px;
           display: inline-block;
           width: 59%;
@@ -215,19 +307,19 @@
         }
       }
     }
-    .update-info{
+    .update-info {
       width: 60%;
       margin: 0px auto;
-      .personal-title{
+      .personal-title {
         height: 60px;
         font-size: 22px;
         text-align: center;
         line-height: 60px;
       }
-      .form-box{
+      .form-box {
         margin-top: 20px;
         font-size: 16px;
-        .update-btn{
+        .update-btn {
           cursor: pointer;
           width: 200px;
           text-align: center;
@@ -243,18 +335,18 @@
       }
     }
     /****************************************/
-    .update-password{
+    .update-password {
       width: 60%;
       margin: 0px auto;
-      .password-title{
+      .password-title {
         height: 60px;
         font-size: 22px;
         text-align: center;
         line-height: 60px;
       }
-      .form-box{
+      .form-box {
         margin-top: 20px;
-        .time-btn{
+        .time-btn {
           width: 60%;
           height: 35px;
           line-height: 35px;
@@ -262,7 +354,7 @@
           margin: 0px auto;
           border: 1px solid #dedede;
           border-radius: 15px;
-          &:hover{
+          &:hover {
             cursor: pointer;
           }
         }

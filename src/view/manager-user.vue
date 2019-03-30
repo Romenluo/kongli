@@ -75,7 +75,35 @@
           </div>
           <!--修改密码页面-->
           <div v-if="nav=='updatePassword'" class="update-password">
-            修改密码
+            <div class="password-title">修改密码</div>
+            <div class="form-box">
+              <i-form ref="updatePassword" :model="updatePassword" :rules="ruleUpdatePass" :label-width="120">
+                <Form-item label="旧密码" prop="oldPassword">
+                  <i-input type="password" v-model="updatePassword.oldPassword" placeholder="请输入旧密码"></i-input>
+                </Form-item>
+                <Form-item label="新密码" prop="newPassword">
+                  <i-input type="password" v-model="updatePassword.newPassword" placeholder="请输入新密码"></i-input>
+                </Form-item>
+                <Form-item label="确认密码" prop="confirm">
+                  <i-input type="password" v-model="updatePassword.confirm" placeholder="请输入验证密码"></i-input>
+                </Form-item>
+                <Row>
+                  <i-col span="12">
+                    <Form-item label="验证码">
+                      <i-input v-model="updatePassword.code" placeholder="请输入验证码"></i-input>
+                    </Form-item>
+                  </i-col>
+                  <i-col span="12">
+                    <div class="time-btn" @click="getCodeTest">
+                      {{codeText}}
+                    </div>
+                  </i-col>
+                </Row>
+                <Form-item>
+                  <i-button type="primary" @click="updateBtn('updatePassword')">修改</i-button>
+                </Form-item>
+              </i-form>
+            </div>
           </div>
         </div>
       </i-col>
@@ -92,24 +120,67 @@
       ManagerHome
     },
     data() {
+      const validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else {
+          if (this.updatePassword.confirm !== '') {
+            // 对第二个密码框单独验证
+            this.$refs.updatePassword.validateField('confirm');
+          }
+          callback();
+        }
+      };
+      const validatePassCheck = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.updatePassword.newPassword) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
       return {
         theme3:'light',
         nav: 'manager',
         email: '',
         petName: '',
         qq: '',
-        roleNam: ''
+        roleNam: '',
+        codeText: "获取验证码",
+        startTime: 60,
+        updatePassword: {
+          oldPassword: '',
+          newPassword: '',
+          confirm: '',
+          code: ''
+        },
+        ruleUpdatePass: {
+          oldPassword: [
+            {required: true, message: '旧密码不能为空', trigger: 'blur'}
+            /*{validator: this.oldPass, trigger: 'blur'}*/
+          ],
+          newPassword: [
+            {required: true, message: '新密码不能为空', trigger: 'blur'},
+            {validator: validatePass, trigger: 'blur'}
+          ],
+          confirm: [
+            {required: true, message: '确认密码不能为空', trigger: 'blur'},
+            {validator: validatePassCheck, trigger: 'blur'}
+          ],
+          code: [
+            {required: true, message: '确认密码不能为空', trigger: 'blur'},
+          ]
+        }
       }
     },
     methods: {
       selectNav(name){
         this.nav = name
-        if(this.nav=='updateInfo'){
           this.email = this.loginMessage.user.email
           this.petName = this.loginMessage.user.petName
           this.qq = this.loginMessage.user.qq
           this.roleNam = this.loginMessage.user.role.name
-        }
       },
       /**
        * 修改用户信息
@@ -129,6 +200,79 @@
           self.$store.commit('updateMessage', data);
         }).catch(function (error) {
           self.$Message.error("获取验证码失败");
+        });
+      },
+      getCodeTest() {
+        if (this.startTime < 60) {
+          return;
+        }
+        let parameter = {
+          userName:this.email
+        }
+        let self = this;
+        this.$axios.post('/local/user/verificationCode',parameter).then(function (response) {
+          console.log(response)
+          self.$Message.success(response.data.msg);
+        }).catch(function (error) {
+          self.$Message.error("获取验证码失败"+error);
+        });
+        var newtime = setInterval(() => {
+          if (this.startTime <= 0) {
+            this.startTime = 60;
+            clearInterval(newtime);
+            this.codeText = '获取验证码'
+          } else {
+            this.startTime--;
+            this.codeText = this.startTime + '秒重新获取';
+          }
+        }, 1000);
+      },
+      /**
+       * 点击修改按钮就修改密码
+       * */
+      updateBtn(name) {
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            let parameter = {
+              email: this.email,
+              oldPassword: this.updatePassword.oldPassword,
+              newPassword: this.updatePassword.newPassword,
+              code: this.updatePassword.code
+            }
+            let self = this
+            this.$axios.post('/local/user/updatePassword', parameter).then(function (response) {
+              console.log(response)
+              let data = response.data
+              self.$Message.success(data.msg)
+              /*if(data.cases=='1'){
+                self.$Message.success(data.msg)
+              }else{
+                self.$Message.error(data.ms)
+              }*/
+            }).catch(function (error) {
+              self.$Message.error("服务器出错"+error);
+            });
+          } else {
+            this.$Message.error('表单验证失败!');
+          }
+        })
+      },
+      oldPass() {
+        let parameter = {
+          email: this.email,
+          oldPassword: this.updatePassword.oldPassword
+        }
+        let self = this
+        this.$axios.post('/local/user/verificationOldPassword', parameter).then(function (response) {
+          console.log(response)
+          let data = response.data
+          if(data.cases=='1'){
+            self.$Message.success(data.msg)
+          }else{
+            self.$Message.error(data.ms)
+          }
+        }).catch(function (error) {
+          self.$Message.error("服务器出错"+error);
         });
       }
     },
@@ -197,6 +341,31 @@
           background-color: dodgerblue;
           border-radius: 5px;
           padding: 5px 10px;
+        }
+      }
+    }
+    .update-password {
+      width: 60%;
+      margin: 0px auto;
+      .password-title {
+        height: 60px;
+        font-size: 22px;
+        text-align: center;
+        line-height: 60px;
+      }
+      .form-box {
+        margin-top: 20px;
+        .time-btn {
+          width: 60%;
+          height: 35px;
+          line-height: 35px;
+          text-align: center;
+          margin: 0px auto;
+          border: 1px solid #dedede;
+          border-radius: 15px;
+          &:hover {
+            cursor: pointer;
+          }
         }
       }
     }
