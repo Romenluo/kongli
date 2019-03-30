@@ -67,6 +67,7 @@
     name: "show",
     methods:{
       moreBtn(){
+        /**/
         this.$router.replace({path: '/pull'});
       }
     }
