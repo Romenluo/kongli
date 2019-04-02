@@ -7,6 +7,9 @@
           <div v-if="item.value=='userManager'">
               <user-manager :list="userDate"></user-manager>
           </div>
+          <div v-else-if="item.value=='addNote'">
+            <editor-note></editor-note>
+          </div>
           <div v-else>{{item.name}}</div>
         </Tab-pane>
       </Tabs>
@@ -16,10 +19,12 @@
 
 <script>
   import UserManager from './user-manager'
+  import EditorNote from './editor-note'
   export default {
     name: "home",
     components:{
-      UserManager
+      UserManager,
+      EditorNote
     },
     data() {
       return {

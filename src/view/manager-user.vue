@@ -288,7 +288,7 @@
 
 <style lang="scss" scoped>
   .personal-box{
-    height: 800px;
+    min-height: 800px;
     border-left: 1px solid #dcdee2;
     .manager-box{
       width: 100%;
