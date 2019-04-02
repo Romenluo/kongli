@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button v-if="initValue" @click="init">获取所有用户</el-button>
+    <el-button v-show="initValue" @click="init">获取所有用户</el-button>
     <el-table
       :align="align"
       :data="listArray"
@@ -73,6 +73,10 @@
       },
       handleEdit(index,row){
         let self = this;
+        if(row.role=='管理员'){
+          self.$Message.error('不能禁用该用户')
+          return
+        }
         let str = row.forbidden=='否'?`确定要冻结${row.email}用户吗?`:'确定要解除被冻结用户吗?'
         this.$confirm(str, '提示', {
           confirmButtonText: '确定',
