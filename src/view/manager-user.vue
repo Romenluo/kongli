@@ -29,7 +29,7 @@
       <i-col span="19">
         <div class="personal-box">
           <!--后台管理页面-->
-          <div v-if="nav=='manager'" class="personal-info">
+          <div v-if="nav=='manager'" class="manager-box">
             <manager-home></manager-home>
           </div>
           <!--个人信息展示页面-->
@@ -287,10 +287,13 @@
 </script>
 
 <style lang="scss" scoped>
-
   .personal-box{
     height: 800px;
     border-left: 1px solid #dcdee2;
+    .manager-box{
+      width: 100%;
+      min-height: 800px;
+    }
     .personal-info{
       width: 80%;
       margin: 0px auto;

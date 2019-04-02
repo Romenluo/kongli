@@ -2,18 +2,92 @@
   <div>
     <div class="manager-title">后台管理系统</div>
     <div class="tabs-box">
-      <Tabs type="card">
-        <Tab-pane label="标签一">标签一的内容</Tab-pane>
-        <Tab-pane label="标签二">标签二的内容</Tab-pane>
-        <Tab-pane label="标签三">标签三的内容</Tab-pane>
+      <Tabs type="card" @on-click="tabContent">
+        <Tab-pane :label="item.name" :key="item.value" v-for="item in tabDate">
+          <div v-if="item.value=='userManager'">
+              <user-manager :list="userDate"></user-manager>
+          </div>
+          <div v-else>{{item.name}}</div>
+        </Tab-pane>
       </Tabs>
     </div>
   </div>
 </template>
 
 <script>
+  import UserManager from './user-manager'
   export default {
-    name: "home"
+    name: "home",
+    components:{
+      UserManager
+    },
+    data() {
+      return {
+        tabDate:[
+          {
+            value: "userManager",
+            name: '用户管理'
+          },
+          {
+            value: "addNote",
+            name: '添加文章'
+          },
+          {
+            value: "noteManager",
+            name: '文章管理'
+          },
+          {
+            value: "commentManager",
+            name: '评论管理'
+          },
+          {
+            value: "informationManager",
+            name: '时日资讯管理'
+          }
+        ],
+        userDate: []
+      }
+    },
+    methods:{
+      tabContent(val){
+        console.log(val)
+        if(val=='0'){
+          this.findUser();
+          console.log('-----------')
+          console.log(this.userDate)
+        }
+      },
+      findUser() {
+        let self = this
+        this.$axios.post('/local/manager/findAllUser').then(function (response) {
+          let userList = response.data;
+          let array = []
+          if(userList!=null){
+            for(let i=0;i<userList.length;i++){
+              array.push({
+                email: userList[i].email,
+                petName: userList[i].petName,
+                qq: userList[i].qq,
+                role: userList[i].role.name,
+                forbidden:userList[i].forbidden=='N'? '否':'是'
+              })
+            }
+            self.userDate=[...array]
+          }else {
+            console.log(response)
+          }
+          console.log(array)
+        }).catch(function (error) {
+          self.$Message.error('服务器异常');
+        });
+      }
+
+    },
+    created(){
+      this.findUser();
+    }
+
+
   }
 </script>
 
