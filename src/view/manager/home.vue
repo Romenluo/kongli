@@ -53,8 +53,8 @@
         console.log(val)
         if(val=='0'){
           this.findUser();
-          console.log('-----------')
-          console.log(this.userDate)
+          // console.log('-----------')
+          // console.log(this.userDate)
         }
       },
       findUser() {
@@ -74,7 +74,7 @@
             }
             self.userDate=[...array]
           }else {
-            console.log(response)
+            // console.log(response)
           }
           console.log(array)
         }).catch(function (error) {

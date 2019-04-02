@@ -1,9 +1,10 @@
 <template>
   <div>
+    <el-button v-if="initValue" @click="init">获取所有用户</el-button>
     <el-table
       :align="align"
       :data="listArray"
-      style="width: 100%"
+      style="width: 100%;margin-top: 10px"
       border
     >
       <el-table-column
@@ -61,10 +62,15 @@
     data() {
       return {
         align: 'center',
-        listArray:this.list
+        listArray:this.list,
+        initValue:false
       }
     },
     methods: {
+      init(){
+        this.initValue=true
+        this.listArray=this.list
+      },
       handleEdit(index,row){
         let self = this;
         let str = row.forbidden=='否'?`确定要冻结${row.email}用户吗?`:'确定要解除被冻结用户吗?'
@@ -77,7 +83,6 @@
             email:row.email,
             forbidden:row.forbidden=='否'?'Y':'N'
           };
-
           this.$axios.post('/local/manager/updateForbidden',parame).then(function (response) {
             let data = response.data;
             let lists = data.list
@@ -106,6 +111,9 @@
           });
         });
       }
+    },
+    created(){
+      this.init()
     }
   }
 </script>
