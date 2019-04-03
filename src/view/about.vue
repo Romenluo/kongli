@@ -29,7 +29,7 @@
         this.$Message.info('点击了取消');
       },
       getMessage(){
-        console.log(this.userMessage)
+        // console.log(this.userMessage)
       }
     },
     computed: {

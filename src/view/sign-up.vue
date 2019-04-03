@@ -110,7 +110,7 @@
             }
             let self = this;
             this.$axios.post('/local/user/signUp',paramet).then(function (response) {
-              console.log(response);
+              // console.log(response);
               let data = response.data;
               if(data.cases=="1"){
                 self.$Message.success(data.msg);
@@ -120,7 +120,7 @@
               }
 
             }).catch(function (error) {
-              console.log(error);
+              // console.log(error);
             });
           } else {
             this.$Message.error('请填写正确信息');
@@ -142,7 +142,7 @@
           let self = this;
           //请求后台数据
           this.$axios.post('/local/user/verificationCode',parameter).then(function (response) {
-            console.log(response)
+            // console.log(response)
             self.$Message.success(response.data.msg);
           }).catch(function (error) {
             self.$Message.error("获取验证码失败");

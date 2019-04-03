@@ -62,7 +62,7 @@
               }
             }).catch(function (error) {
               self.$Message.error('服务器异常');
-              console.log(error)
+              // console.log(error)
             });
           } else {
             this.$Message.error('输入数据不符合要求');

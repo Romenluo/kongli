@@ -125,7 +125,7 @@
         let self = this;
         this.$axios.post('/local/user/logout').then(function (response) {
           let data = response.data;
-          console.log(response);
+          // console.log(response);
           self.$store.commit('updateMessage', data);
         }).catch(function (error) {
           self.$Message.error('服务器异常');
@@ -144,7 +144,7 @@
               let self = this;
               this.$axios.post('/local/user/signIn', parame).then(function (response) {
                 let data = response.data;
-                console.log(response);
+                // console.log(response);
                 self.$store.commit('updateMessage', data);
                 if (data.cases == "1") {
                   self.$Message.success(data.msg);
@@ -154,7 +154,7 @@
                 }
               }).catch(function (error) {
                 self.$Message.error('服务器异常');
-                console.log(error)
+                // console.log(error)
               });
             } else {
               this.$Message.error('输入数据不符合要求');

@@ -8,7 +8,7 @@
               <user-manager :list="userDate"></user-manager>
           </div>
           <div v-else-if="item.value=='addNote'">
-            <editor-note></editor-note>
+            <editor-note :category="category"></editor-note>
           </div>
           <div v-else>{{item.name}}</div>
         </Tab-pane>
@@ -50,16 +50,18 @@
             name: '时日资讯管理'
           }
         ],
-        userDate: []
+        userDate: [],
+        category:[]
       }
     },
     methods:{
       tabContent(val){
-        console.log(val)
-        if(val=='0'){
+        if(this.tabDate[val].value=='userManager'){
           this.findUser();
-          // console.log('-----------')
-          // console.log(this.userDate)
+        }
+        if(this.tabDate[val].value=='addNote'){
+          console.log(val)
+          this.getCategory()
         }
       },
       findUser() {
@@ -79,10 +81,18 @@
             }
             self.userDate=[...array]
           }else {
-            // console.log(response)
           }
-          console.log(array)
         }).catch(function (error) {
+          self.$Message.error('服务器异常');
+        });
+      },
+      getCategory(){
+        let self = this
+        this.$axios.post('/local/manager/findAllCategory').then(function (response) {
+          self.category = response.data.categoryList;
+         // console.log(response)
+        }).catch(function (error) {
+          console.log(error)
           self.$Message.error('服务器异常');
         });
       }

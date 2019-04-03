@@ -78,7 +78,7 @@
     },
     methods: {
       clickNav(val){
-        console.log(val)
+        // onsole.log(val)
       }
     }
   }
