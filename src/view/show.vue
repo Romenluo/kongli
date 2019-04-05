@@ -65,8 +65,8 @@
 <script>
   export default {
     name: "show",
-    methods:{
-      moreBtn(){
+    methods: {
+      moreBtn() {
         /**/
         this.$router.replace({path: '/pull'});
       }
@@ -75,34 +75,34 @@
 </script>
 
 <style lang="scss" scoped>
-.image-item{
-  width: 100%;
-  height: 350px;
-}
-  .intro{
+  .image-item {
+    width: 100%;
+    height: 350px;
+  }
+  .intro {
     width: 95%;
     height: auto;
     margin: 10px auto;
-    .intro-content{
+    .intro-content {
       width: 100%;
       height: 600px;
       /*简介内容样式*/
-      .intro-content-text{
+      .intro-content-text {
         width: 100%;
         height: 100%;
-        .image-box{
+        .image-box {
           width: 70%;
           height: auto;
           margin-left: 5px;
           position: relative;
           top: -430px;
-          img{
+          img {
             width: 100%;
             border: 1px solid #dedede;
             box-shadow: 0px 0px 3px 4px #dedede;
           }
         }
-        .content-text{
+        .content-text {
           width: 32%;
           height: 530px;
           position: relative;
@@ -110,21 +110,21 @@
           top: 8px;
           border: 1px solid #dedede;
           box-shadow: 0px 0px 3px 4px #dedede;
-          .content-title-text{
+          .content-title-text {
             width: 100%;
             height: 40px;
             font-size: 18px;
             text-align: center;
             line-height: 40px;
           }
-          .content-text-child{
+          .content-text-child {
             width: 80%;
             height: auto;
             position: relative;
             left: 15%;
             top: 5%;
             font-size: 16px;
-            span{
+            span {
               display: block;
               line-height: 40px;
               text-align: center;
@@ -134,38 +134,38 @@
         }
       }
     }
-    .intro-video{
+    .intro-video {
       width: 100%;
       height: 550px;
-      .intro-title{
+      .intro-title {
         width: 100%;
         height: 50px;
         font-size: 22px;
         text-align: center;
         line-height: 50px;
       }
-      .video-box{
+      .video-box {
         width: 100%;
         height: 500px;
         background-color: #444444;
       }
     }
-    .welcome{
+    .welcome {
       width: 100%;
       height: 200px;
-      p{
+      p {
         font-size: 25px;
         line-height: 100px;
         text-align: center;
       }
-      span{
+      span {
         display: inline-block;
         font-size: 18px;
         line-height: 50px;
         text-align: center;
         width: 100%;
         height: 100px;
-        &:hover{
+        &:hover {
           color: dodgerblue;
           cursor: pointer;
         }
