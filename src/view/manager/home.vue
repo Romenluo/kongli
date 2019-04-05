@@ -10,6 +10,12 @@
           <div v-else-if="item.value=='addNote'">
             <editor-note :category="category"></editor-note>
           </div>
+          <div v-else-if="item.value=='addInformation'">
+            <add-information></add-information>
+          </div>
+          <div v-else-if="item.value=='informationManager'">
+            <info-manager></info-manager>
+          </div>
           <div v-else>{{item.name}}</div>
         </Tab-pane>
       </Tabs>
@@ -20,11 +26,15 @@
 <script>
   import UserManager from './user-manager'
   import EditorNote from './editor-note'
+  import AddInformation from './add-information'
+  import InfoManager from './info-manager'
   export default {
     name: "home",
     components:{
       UserManager,
-      EditorNote
+      EditorNote,
+      AddInformation,
+      InfoManager
     },
     data() {
       return {
@@ -42,8 +52,8 @@
             name: '文章管理'
           },
           {
-            value: "commentManager",
-            name: '评论管理'
+            value: "addInformation",
+            name: '添加实时资讯'
           },
           {
             value: "informationManager",
@@ -60,7 +70,6 @@
           this.findUser();
         }
         if(this.tabDate[val].value=='addNote'){
-          console.log(val)
           this.getCategory()
         }
       },
