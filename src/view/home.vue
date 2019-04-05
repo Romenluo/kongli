@@ -55,7 +55,7 @@
       </Footer>
     </Layout>
     <!--登录弹出框-->
-    <div class="login-box" v-show="loginModel">
+    <div class="login-box" v-show="loginModel"  v-loading="loading">
       <div class="login-content">
         <div class="login-title">登录</div>
         <span class="clear-icon" @click="clear"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
@@ -86,6 +86,7 @@
     name: 'home',
     data() {
       return {
+        loading: false,
         theme1: 'light',
         copyright: '\xA9',
         user: {},
@@ -139,6 +140,7 @@
       },
       /*点击登录按钮后登录。取消model框*/
       sigIn(name) {
+        this.loading=true
         this.$refs[name].validate((valid) => {
           if (valid) {
 
@@ -151,6 +153,7 @@
               this.$axios.post('/local/user/signIn', parame).then(function (response) {
                 let data = response.data;
                 // console.log(response);
+                self.loading=false
                 self.$store.commit('updateMessage', data);
                 if (data.cases == "1") {
                   self.$Message.success(data.msg);
@@ -267,7 +270,7 @@
     height: 100%;
     z-index: 2222;
     top: 0px;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.1);
     .login-content {
       width: 45%;
       height: 300px;

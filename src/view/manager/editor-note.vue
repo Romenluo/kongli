@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <div class="editor-title">
       添加文章
     </div>
@@ -47,6 +47,7 @@
     },
     data() {
       return {
+        loading: false,
         title: '',
         content: ``,
         categoryValue: '旅游景点',
@@ -71,6 +72,7 @@
       onEditorChange() {
       },
       saveHtml: function (event) {
+        this.loading = true
         let parameter={
           title: this.title,
           category: this.categoryValue,
@@ -79,6 +81,7 @@
         console.log(parameter)
         let self = this
         this.$axios.post('/local/manager/saveNote',parameter).then(function (response) {
+          self.loading = false
           console.log(response)
         }).catch(function (error) {
           console.log(error)

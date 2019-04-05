@@ -1,5 +1,5 @@
 <template>
-  <div class="register-root">
+  <div class="register-root" v-loading="loading">
     <div class="register-box">
       <div class="login-title">注册</div>
       <Form ref="formSignUp" :model="formSignUp" :rules="ruleSignUp">
@@ -90,12 +90,14 @@
         codeText:"获取验证码",
         startTime:60,
         show:false,
-        clickCode:false
+        clickCode:false,
+        loading: false
       }
     },
     methods: {
       //注册
       submit(name) {
+        this.loading=true
         this.$refs[name].validate((valid) => {
           if (valid) {
             if(this.clickCode==false){
@@ -110,8 +112,9 @@
             }
             let self = this;
             this.$axios.post('/local/user/signUp',paramet).then(function (response) {
-              // console.log(response);
+              console.log(response);
               let data = response.data;
+              self.loading=false
               if(data.cases=="1"){
                 self.$Message.success(data.msg);
                 self.$router.push({path: '/login'});

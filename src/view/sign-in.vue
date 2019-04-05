@@ -1,5 +1,5 @@
 <template>
-  <div class="root">
+  <div class="root" v-loading="loading">
     <div class="login-box">
       <div class="login-title">登录</div>
       <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
@@ -27,6 +27,7 @@
     name: "home",
     data() {
       return {
+        loading: false,
         formLogin: {
           userName: '',
           password: ''
@@ -43,6 +44,7 @@
       }
     },
     methods: {
+      // 登录按钮
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
@@ -54,6 +56,7 @@
             this.$axios.post('/local/user/signIn',parame).then(function (response) {
               let data = response.data;
               self.$store.commit('updateMessage',data);
+              self.loading=false
               if(data.cases=="1"){
                 self.$Message.success(data.msg);
                 self.$router.push("/home");

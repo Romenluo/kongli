@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <div class="editor-title">
       添加时时资讯
     </div>
@@ -36,7 +36,8 @@
       return {
         title: '',
         content: ``,
-        editorOption: {}
+        editorOption: {},
+        loading: false
       }
     },
     computed: {
@@ -57,6 +58,7 @@
       onEditorChange() {
       },
       saveHtml() {
+        this.loading = true
         let parameter={
           title: this.title,
           content: this.content,
@@ -65,6 +67,7 @@
         let self = this
         this.$axios.post('/local/manager/saveInfo',parameter).then(function (response) {
           let data = response.data
+          self.loading = false
           if(data.cases=='1'){
             self.$message({
               type: 'success',
