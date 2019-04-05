@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <Layout>
       <Header class="header-box">
         <Row>
@@ -55,7 +54,10 @@
       </Footer>
     </Layout>
     <!--登录弹出框-->
-    <div class="login-box" v-show="loginModel"  v-loading="loading">
+    <div class="login-box" v-show="loginModel"  v-loading="loading"
+         element-loading-text="登录中"
+         element-loading-spinner="el-icon-loading"
+         element-loading-background="rgba(0, 0, 0, 0.8)">
       <div class="login-content">
         <div class="login-title">登录</div>
         <span class="clear-icon" @click="clear"><i class="fa fa-times-circle" aria-hidden="true"></i></span>

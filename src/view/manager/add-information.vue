@@ -1,5 +1,8 @@
 <template>
-  <div v-loading="loading">
+  <div v-loading="loading"
+       element-loading-text="拼命加载中"
+       element-loading-spinner="el-icon-loading"
+       element-loading-background="rgba(0, 0, 0, 0.8)">
     <div class="editor-title">
       添加时时资讯
     </div>
