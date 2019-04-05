@@ -17,6 +17,9 @@
               <MenuItem name="pull">
                 普安
               </MenuItem>
+              <MenuItem name="information">
+                实时资讯
+              </MenuItem>
               <MenuItem name="personal">
                 个人中心
               </MenuItem>
@@ -115,6 +118,9 @@
         }
         if (name == 'about') {
           this.$router.replace({path: '/about'});
+        }
+        if (name == 'information') {
+          this.$router.replace({path: '/information'});
         }
       },
       /*点击登录按钮后弹出登录框*/

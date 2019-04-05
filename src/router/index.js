@@ -8,6 +8,7 @@ import Pull from '@/view/puan'
 import Personal from '@/view/personal'
 import Error from '@/view/error'
 import About from '@/view/about'
+import Information from '@/view/information'
 Vue.use(Router)
 
 export default new Router({
@@ -55,6 +56,11 @@ export default new Router({
           path: '/about',
           name: 'About',
           component: About
+        },
+        {
+          path: '/information',
+          name: 'Information',
+          component: Information
         }
       ]
     }
