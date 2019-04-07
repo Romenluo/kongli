@@ -3,6 +3,7 @@
        element-loading-text="拼命加载中"
        element-loading-spinner="el-icon-loading"
        element-loading-background="rgba(0, 0, 0, 0.8)">
+    <!--添加文章，使用quill-editor富文本编辑器作为编辑文章的编辑器，方便插入图片和编辑文章-->
     <div class="editor-title">
       添加文章
     </div>
@@ -27,12 +28,20 @@
           </el-select>
         </el-col>
       </el-row>
+      <el-row style="margin-top: 10px">
+        <el-col :span="3">
+          <span class="label-name">图片名</span>
+        </el-col>
+        <el-col :span="16">
+          <el-input v-model="imageName" placeholder="请输入图片名称（需要输入后缀）"></el-input>
+        </el-col>
+      </el-row>
       <quill-editor
         v-model="content"
         ref="myQuillEditor"
         :options="editorOption"
-        @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
-        @change="onEditorChange($event)">
+        @blur="onEditorBlur()" @focus="onEditorFocus()"
+        @change="onEditorChange()">
       </quill-editor>
       <div class="save-btn">
         <el-button type="primary" v-on:click="saveHtml">保存</el-button>
@@ -54,7 +63,9 @@
         title: '',
         content: ``,
         categoryValue: '旅游景点',
-        editorOption: {}
+        imageName: '',
+        editorOption: {},
+        isSave:false
       }
     },
     computed: {
@@ -74,18 +85,28 @@
       // 内容改变事件
       onEditorChange() {
       },
-      saveHtml: function (event) {
+      saveHtml: function () {
+        if (this.isSave == true) {
+          this.$Message.error("你已经保存过，不能再次保存，如需更改内容请去修改内容！！！");
+          return
+        }
         this.loading = true
         let parameter={
           title: this.title,
           category: this.categoryValue,
           content: this.content,
+          imageName: this.imageName
         }
-        console.log(parameter)
         let self = this
         this.$axios.post('/local/manager/saveNote',parameter).then(function (response) {
+          self.isSave = true
           self.loading = false
-          console.log(response)
+          let data = response.data
+          if(data.cases=='1'){
+            self.$Message.success(data.msg);
+          }else {
+            self.$Message.error(data.msg);
+          }
         }).catch(function (error) {
           console.log(error)
           self.$Message.error("请求异常");
@@ -94,6 +115,11 @@
     },
     created(){
 
+    },
+    watch:{
+      title(){
+        this.isSave = false
+      }
     }
   }
 </script>

@@ -9,6 +9,7 @@ import Personal from '@/view/personal'
 import Error from '@/view/error'
 import About from '@/view/about'
 import Information from '@/view/information'
+import InfoDetail from '@/view/info-detail'
 Vue.use(Router)
 
 export default new Router({
@@ -61,6 +62,11 @@ export default new Router({
           path: '/information',
           name: 'Information',
           component: Information
+        },
+        {
+          path: '/infoDetail',
+          name: 'InfoDetail',
+          component: InfoDetail
         }
       ]
     }

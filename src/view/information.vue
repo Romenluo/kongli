@@ -30,7 +30,7 @@
         <!--此处为循环显示-->
         <div v-for="item in info" :key="item.id" class="content">
           <div class="content-title">{{item.title}}</div>
-          <div class="content-text" v-html="item.content"></div>
+          <div class="content-text" v-html="item.content" @click="goInfoDetail(item)"></div>
           <div class="content-foot">
             <span class="info-upVote-downVote">
               <span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>{{item.upVote}}
@@ -49,14 +49,14 @@
 <script>
   export default {
     name: "information",
-    data () {
+    data() {
       return {
         info: [],
         infoLength: 0
       }
     },
     methods: {
-      getInfo(){
+      getInfo() {
         let self = this
         this.$axios.post('/local/manager/findAllInfo').then(function (response) {
           self.info = response.data
@@ -64,28 +64,44 @@
         }).catch(function (error) {
           self.$Message.error('服务器异常')
         });
+      },
+      /**
+       * 跳转到详情页
+       */
+      goInfoDetail(item) {
+        let params={
+          name:"InfoDetail",
+          params:{
+            ff:item,
+            count: this.info
+          }
+        };
+        this.$router.push(params);
       }
+
     },
-    created(){
+    created() {
       this.getInfo()
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  .box{
+  .box {
     background-color: #f8f8f8;
   }
+
   .image-item {
     width: 100%;
     height: 350px;
   }
-  .information-box{
+
+  .information-box {
     width: 90%;
     min-height: 500px;
     margin: 0px auto;
     background-color: #fff;
-    .no-data{
+    .no-data {
       width: 100%;
       height: 200px;
       line-height: 200px;
@@ -95,7 +111,7 @@
       font-size: 18px;
       border-radius: 5px;
     }
-    .title{
+    .title {
       width: 150px;
       height: 50px;
       line-height: 50px;
@@ -106,54 +122,54 @@
       border-radius: 5px;
       box-shadow: 0px 0px 3px 3px #dedede;
     }
-    .information-content{
+    .information-content {
       width: 98%;
       height: 100%;
       margin: 10px auto;
       /*background-color: #f8f8f8;*/
-      .content{
+      .content {
         width: 100%;
         height: 250px;
         margin-top: 20px;
         background-color: #f8f8f8;
-        .content-title{
+        .content-title {
           height: 50px;
           line-height: 50px;
           font-size: 20px;
           background-color: #e6e6e6;
           padding-left: 20px;
-          &:hover{
+          &:hover {
             color: dodgerblue;
           }
         }
-        .content-text{
+        .content-text {
           height: 170px;
           overflow: hidden;
           padding-left: 25px;
           font-size: 14px;
           /*background-color: #666666;*/
         }
-        .content-foot{
+        .content-foot {
           height: 30px;
           line-height: 30px;
           font-size: 16px;
           background-color: #f8f8f8;
-          .info-date{
+          .info-date {
             float: right;
             display: inline-block;
             width: 150px;
             height: 100%;
           }
-          .info-upVote-downVote{
+          .info-upVote-downVote {
             float: right;
             width: 80px;
             height: 100%;
-            span{
+            span {
               display: inline-block;
               width: 30px;
               height: 30px;
               text-align: center;
-              &:hover{
+              &:hover {
                 cursor: pointer;
               }
             }
