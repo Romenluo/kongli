@@ -7,7 +7,6 @@
     <div class="editor-title">
       添加文章
     </div>
-
     <div class="edit_container">
 
       <el-row>
@@ -46,7 +45,6 @@
       <div class="save-btn">
         <el-button type="primary" v-on:click="saveHtml">保存</el-button>
       </div>
-
     </div>
   </div>
 </template>

@@ -25,7 +25,7 @@
             <div class="submit-comment" v-if="loginMessage.cases==1">
               <el-input style="float: left"
                         type="textarea"
-                        :rows="2"
+                        :rows="4"
                         placeholder="请输入评论内容"
                         v-model="commentContent">
               </el-input>
@@ -46,6 +46,7 @@
       </div>
 
       <div class="right-info">
+        <div class="tuijian">{{category.name}}相关推荐</div>
         <div class="info-nav" v-for="item in count" :key="item.id" @click="getInfoData(item)">{{item.title}}</div>
       </div>
     </div>
@@ -59,7 +60,8 @@
       return {
         info: {},
         count:[],
-        commentContent: ''
+        commentContent: '',
+        category: ''
       }
     },
     methods: {
@@ -70,7 +72,7 @@
     mounted() {
       this.info = this.$route.params.ff
       this.count = this.$route.params.count
-
+      this.category = this.$route.params.category
     },
     computed: {
       loginMessage: {
@@ -158,6 +160,7 @@
           .submit-comment{
             width: 100%;
             margin: 20px auto;
+            min-height: 150px;
             overflow: auto;
             /*border: 1px solid #dedede;*/
 
@@ -189,7 +192,8 @@
       float: right;
       width: 20%;
       min-height: 200px;
-      border: 1px solid #e13d13;
+      border-radius: 5px;
+      border: 1px solid #dedede;
       .info-nav{
         width: 100%;
         height: 30px;
@@ -202,6 +206,17 @@
           color: #2baee9;
           cursor: pointer;
         }
+      }
+      .tuijian{
+        width: 90%;
+        height: 45px;
+        font-size: 16px;
+        line-height: 45px;
+        background-color: #dedede;
+        text-align: center;
+        border: 1px solid #dedede;
+        border-radius: 5px;
+        margin: 10px auto;
       }
     }
   }

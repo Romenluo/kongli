@@ -28,8 +28,10 @@
       <Tabs type="card" @on-click="clickNav">
         <Tab-pane v-for="item in category" :label="item.name" :key="item.id">
           <div class="card-box">
-            <div class="tab-box" v-for="ite in content">
-              {{item.name}}-->{{ite}}
+            <div class="no-note" v-if="notes.length==0">暂无数据</div>
+            <div class="tab-box" @click="goInfoDetail(ite,item)" v-for="ite in notes">
+              <div class="tab-image"><img :src="local+ite.photos.imageUrl"/></div>
+              <div class="note-title">{{ite.title}}</div>
             </div>
           </div>
         </Tab-pane>
@@ -43,43 +45,62 @@
     name: "puan",
     data() {
       return {
-        category: [
-          {
-            id: 1,
-            name: '旅游景点'
-          },
-          {
-            id: 2,
-            name: '风味小吃'
-          },
-          {
-            id: 3,
-            name: '民族风情'
-          },
-          {
-            id: 4,
-            name: '历史文化'
-          },
-          {
-            id: 5,
-            name: '古茶产品'
-          },
-          {
-            id: 6,
-            name: '古茶文化'
-          },
-          {
-            id: 7,
-            name: '本地特产'
-          }
-        ],
-        content: [1, 2, 3, 4,5,5,6,7,8,9,10,11,12,13,14]
+        category: [],
+        title: '景点标题',
+        notes: [],
+        local: 'http://localhost:8080/image/'
       }
     },
     methods: {
       clickNav(val) {
+        this.getNote(this.category[val].id)
         // onsole.log(val)
+      },
+      /*获取所有的分类*/
+      getCategory(){
+        let self = this
+        this.$axios.post('/local/manager/findAllCategory').then(function (response) {
+          self.category = response.data.categoryList;
+          console.log(response)
+        }).catch(function (error) {
+          console.log(error)
+          self.$Message.error('服务器异常');
+        });
+      },
+      /**
+       * 根据分类id查询数据
+       */
+      getNote(id){
+        let self = this
+        let params = {
+          id:id
+        }
+        this.$axios.post('/local/app/getNote',params).then(function (response) {
+          console.log(response)
+          self.notes =  response.data
+        }).catch(function (error) {
+          console.log(error)
+          self.$Message.error('服务器异常');
+        });
+      },
+      /**
+       * 跳转到详情页
+       */
+      goInfoDetail(item,category) {
+        let params={
+          name:"NoteDetail",
+          params:{
+            ff:item,
+            category: category,
+            count:this.notes
+          }
+        };
+        this.$router.push(params);
       }
+    },
+    created(){
+      this.getCategory()
+      this.getNote(1)
     }
   }
 </script>
@@ -113,7 +134,38 @@
         width: 23%;
         height: 200px;
         margin: 7px 1%;
-        background-color: #4d5669;
+        /*background-color: #4d5669;*/
+        border: 2px solid #dedede;
+        border-radius: 3px;
+        &:hover{
+          border: 2px solid #2baee9;
+          color: #2baee9;
+          cursor: pointer;
+        }
+        .tab-image{
+          width: 100%;
+          height: 160px;
+          background-color: #2baee9;
+          img{
+            width: 100%;
+            height: 160px;
+          }
+        }
+        .note-title{
+          width: 100%;
+          height: 38px;
+          line-height: 38px;
+          text-align: center;
+          font-size: 16px;
+        }
+      }
+      .no-note{
+        width: 100%;
+        height: 200px;
+        font-size: 18px;
+        color: #666666;
+        text-align: center;
+        line-height: 200px;
       }
     }
   }
