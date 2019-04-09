@@ -16,7 +16,9 @@
           <div v-else-if="item.value=='informationManager'">
             <info-manager></info-manager>
           </div>
-          <div v-else>{{item.name}}</div>
+          <div v-else-if="item.value=='noteManager'">
+            <manager-note></manager-note>
+          </div>
         </Tab-pane>
       </Tabs>
     </div>
@@ -28,9 +30,11 @@
   import EditorNote from './editor-note'
   import AddInformation from './add-information'
   import InfoManager from './info-manager'
+  import ManagerNote from './manager-note'
   export default {
     name: "home",
     components:{
+      ManagerNote,
       UserManager,
       EditorNote,
       AddInformation,

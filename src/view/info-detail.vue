@@ -16,7 +16,7 @@
             <span class="info-upVote-downVote">
               <span @click="goUpVote('downVote')"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></span>{{downVote}}
           </span>
-            <span class="info-date"><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;&nbsp;{{info.infoDate}}</span>
+            <span class="info-date"><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;&nbsp;{{info.infoDate|dateFilter}}</span>
           </div>
         </div>
       </div>
@@ -33,9 +33,9 @@
     data() {
       return {
         info: {},
-        count:[],
+        count: [],
         commentContent: '',
-        upVote:0,
+        upVote: 0,
         downVote: 0
       }
     },
@@ -44,11 +44,11 @@
         this.info = item
       },
       //点赞
-      goUpVote(val){
-        if(val=='downVote'){
-          this.downVote = this.downVote+1
-        }else {
-          this.upVote = this.upVote+1
+      goUpVote(val) {
+        if (val == 'downVote') {
+          this.downVote = this.downVote + 1
+        } else {
+          this.upVote = this.upVote + 1
         }
         let params = {
           id: this.info.id,
@@ -56,7 +56,7 @@
           downVote: this.downVote
         }
         let self = this
-        this.$axios.post('/local/user/upVote',params).then(function (response) {
+        this.$axios.post('/local/user/upVote', params).then(function (response) {
           self.upVote = response.data.upVote
           self.downVote = response.data.downVote
           console.log(response)
@@ -65,8 +65,14 @@
         });
       },
       //反对
-      goDownVote(){
+      goDownVote() {
 
+      }
+    },
+    filters: {
+      dateFilter: function (value) {
+        if (!value) return ''
+        return value.toString().split("T")[0]
       }
     },
     mounted() {
@@ -100,7 +106,7 @@
     .main {
       float: left;
       width: 78%;
-      .info-content{
+      .info-content {
         border: 1px solid #dedede;
         border-radius: 5px;
         .info-title {
@@ -121,7 +127,7 @@
           .info-date {
             float: right;
             display: inline-block;
-            width: 400px;
+            width: 200px;
             height: 100%;
           }
           .info-upVote-downVote {
@@ -143,12 +149,12 @@
       /**
   评论样式
    */
-      .comment-box{
+      .comment-box {
         min-height: 200px;
         margin-top: 100px !important;
         /*background-color: #666666;*/
-        .writer-comment{
-          span{
+        .writer-comment {
+          span {
             display: inline-block;
             width: 100%;
             margin: 20px auto;
@@ -158,7 +164,7 @@
             text-align: center;
             font-size: 16px;
           }
-          .submit-comment{
+          .submit-comment {
             width: 100%;
             margin: 20px auto;
             overflow: auto;
@@ -166,12 +172,12 @@
 
           }
         }
-        .comment-show{
+        .comment-show {
           width: 100%;
           min-height: 200px;
           border: 1px solid #dedede;
           border-radius: 5px;
-          span{
+          span {
             display: inline-block;
             width: 100%;
             margin: 20px auto;
@@ -179,7 +185,7 @@
             text-align: center;
             font-size: 16px;
           }
-          .comment-content{
+          .comment-content {
             min-height: 100px;
             width: 95%;
             margin: 5px auto;
@@ -194,14 +200,14 @@
       min-height: 200px;
       border-radius: 5px;
       border: 1px solid #dedede;
-      .info-nav{
+      .info-nav {
         width: 100%;
         height: 30px;
         line-height: 30px;
         padding: 0px 10px;
         overflow: hidden;
         font-size: 16px;
-        &:hover{
+        &:hover {
           background-color: #666666;
           color: #2baee9;
           cursor: pointer;
