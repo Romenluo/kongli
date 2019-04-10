@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="renovate-box">
+      <div class="btn-box" title="刷新" @click="renovate"><i class="el-icon-refresh"></i></div>
+    </div>
     <div class="manager-note">
       <Tabs @on-click="clickNav">
         <Tab-pane v-for="item in category" :label="item.name" :key="item.id">
@@ -7,7 +10,7 @@
           <div class="card-box" v-else>
             <el-table
               :align="align"
-              :data="notes"
+              :data="notes.slice((currentPage-1)*pageSize,currentPage*pageSize)"
               style="width: 98%;margin-top: 10px"
               border
             >
@@ -98,6 +101,12 @@
           <el-button type="primary" @click="updateBtn">修改</el-button>
         </span>
     </el-dialog>
+    <div v-show="notes.length>0" class="pagination">
+      <el-pagination background :current-page.sync="currentPage" :page-size="pageSize" layout="total, prev, pager, next,jumper"
+                     :total="notes.length">
+      </el-pagination>
+    </div>
+
   </div>
 </template>
 
@@ -116,7 +125,9 @@
         imageName: '',
         content: '',
         categoryValue: '',
-        editorOption: {}
+        editorOption: {},
+        pageSize: 5,
+        currentPage: 1
       }
     },
     methods: {
@@ -231,6 +242,9 @@
           .catch(_ => {
           });
       },
+      renovate(){
+        this.getNote(this.category[this.tab].id)
+      }
     },
     created() {
       this.getCategory();
@@ -240,6 +254,22 @@
 </script>
 
 <style lang="scss" scoped>
+  .renovate-box {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    .btn-box {
+      display: block;
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      line-height: 25px;
+      text-align: center;
+      &:hover {
+        color: dodgerblue;
+      }
+    }
+  }
   .manager-note {
     width: 95%;
     min-height: 400px;
@@ -268,5 +298,9 @@
       text-align: right;
       line-height: 40px;
     }
+  }
+  .pagination{
+    width: 95%;
+    margin: 40px auto;
   }
 </style>

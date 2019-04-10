@@ -29,13 +29,18 @@
         <Tab-pane v-for="item in category" :label="item.name" :key="item.id">
           <div class="card-box">
             <div class="no-note" v-if="notes.length==0">暂无数据</div>
-            <div class="tab-box" @click="goInfoDetail(ite,item)" v-for="ite in notes">
+            <div class="tab-box" @click="goInfoDetail(ite,item)" v-for="ite in notes.slice((currentPage-1)*pageSize,currentPage*pageSize)">
               <div class="tab-image"><img :src="local+ite.photos.imageUrl"/></div>
               <div class="note-title">{{ite.title}}</div>
             </div>
           </div>
         </Tab-pane>
       </Tabs>
+    </div>
+    <div v-show="notes.length>0" class="pagination">
+      <el-pagination background :current-page.sync="currentPage" :page-size="pageSize" layout="total, prev, pager, next,jumper"
+                     :total="notes.length">
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -48,7 +53,9 @@
         category: [],
         title: '景点标题',
         notes: [],
-        local: 'http://localhost:8080/image/'
+        local: 'http://localhost:8080/image/',
+        pageSize: 8,
+        currentPage: 1
       }
     },
     methods: {
@@ -168,5 +175,9 @@
         line-height: 200px;
       }
     }
+  }
+  .pagination{
+    width: 50%;
+    margin: 40px auto;
   }
 </style>

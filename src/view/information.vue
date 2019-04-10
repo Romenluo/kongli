@@ -28,7 +28,7 @@
       <div v-if="info.length==0" class="no-data">暂时没有数据</div>
       <div v-else class="information-content">
         <!--此处为循环显示-->
-        <div v-for="item in info" :key="item.id" class="content">
+        <div v-for="item in info.slice((currentPage-1)*pageSize,currentPage*pageSize)" :key="item.id" class="content">
           <div class="content-title">{{item.title}}</div>
           <div class="content-text" v-html="item.content" @click="goInfoDetail(item)"></div>
           <div class="content-foot">
@@ -43,6 +43,11 @@
         </div>
       </div>
     </div>
+    <div v-show="info.length>0" class="pagination">
+      <el-pagination background :current-page.sync="currentPage" :page-size="pageSize" layout="total, prev, pager, next,jumper"
+                     :total="info.length">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -52,7 +57,9 @@
     data() {
       return {
         info: [],
-        infoLength: 0
+        infoLength: 0,
+        pageSize: 5,
+        currentPage: 1
       }
     },
     methods: {
@@ -177,5 +184,9 @@
         }
       }
     }
+  }
+  .pagination{
+    width: 50%;
+    margin: 40px auto;
   }
 </style>

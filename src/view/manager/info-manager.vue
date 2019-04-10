@@ -5,7 +5,7 @@
     </div>
     <el-table
       :align="align"
-      :data="info"
+      :data="info.slice((currentPage-1)*pageSize,currentPage*pageSize)"
       style="width: 100%;margin-top: 10px"
       border
     >
@@ -78,6 +78,11 @@
           <el-button type="primary" @click="saveHtml">修改</el-button>
         </span>
     </el-dialog>
+    <div v-show="info.length>0" class="pagination">
+      <el-pagination background :current-page.sync="currentPage" :page-size="pageSize" layout="total, prev, pager, next,jumper"
+                     :total="info.length">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -94,7 +99,9 @@
         editorOption: {},
         content: '',
         title: '',
-        id: 0
+        id: 0,
+        pageSize: 5,
+        currentPage: 1
       }
     },
     methods: {
@@ -260,5 +267,9 @@
       margin-top: 20px;
       justify-content: center;
     }*/
+  }
+  .pagination{
+    width: 95%;
+    margin: 40px auto;
   }
 </style>
