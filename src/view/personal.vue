@@ -26,10 +26,7 @@
     methods: {
       firstRequest(){
         this.$axios.post('/local/contoner/signIn').then(function (response) {
-          // console.log(response)
         }).catch(function (error) {
-
-          // console.log(error)
         });
       }
     },

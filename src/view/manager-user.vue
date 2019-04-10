@@ -194,7 +194,6 @@
         }
         let self = this
         this.$axios.post('/local/user/updateInfo',parameter).then(function (response) {
-          // console.log(response)
           let data = response.data
           self.$Message.success(data.msg);
           self.$store.commit('updateMessage', data);
@@ -211,7 +210,6 @@
         }
         let self = this;
         this.$axios.post('/local/user/verificationCode',parameter).then(function (response) {
-          // console.log(response)
           self.$Message.success(response.data.msg);
         }).catch(function (error) {
           self.$Message.error("获取验证码失败"+error);
@@ -241,7 +239,6 @@
             }
             let self = this
             this.$axios.post('/local/user/updatePassword', parameter).then(function (response) {
-              // console.log(response)
               let data = response.data
               self.$Message.success(data.msg)
               /*if(data.cases=='1'){

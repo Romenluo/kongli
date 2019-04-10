@@ -3,12 +3,13 @@
     <Layout>
       <Header class="header-box">
         <Row>
-          <Col span="4">
+          <Col span="6">
             <div class="log-box">
-              <img src="../assets/images/log.png"/>
+              古茶树之乡--贵州普安
+              <!--<img src="../assets/images/log.png"/>-->
             </div>
           </Col>
-          <Col span="17" class="nav-box">
+          <Col span="15" class="nav-box">
             <Menu mode="horizontal" :theme="theme1" active-name="home" @on-select="selectItem">
               <MenuItem name="home">
                 首页
@@ -22,9 +23,9 @@
               <MenuItem name="personal">
                 个人中心
               </MenuItem>
-              <MenuItem name="about">
+              <!--<MenuItem name="about">
                 关于我们
-              </MenuItem>
+              </MenuItem>-->
             </Menu>
           </Col>
           <Col span="3">
@@ -76,7 +77,7 @@
             </FormItem>
           </Form>
           <div class="register" @click="sigUp()">没有账号？去注册！</div>
-          <div class="register" @click="forgetPassword()">忘记密码？找回密码</div>
+          <!--<div class="register" @click="forgetPassword()">忘记密码？找回密码</div>-->
         </div>
       </div>
     </div>
@@ -134,7 +135,6 @@
         let self = this;
         this.$axios.post('/local/user/logout').then(function (response) {
           let data = response.data;
-          // console.log(response);
           self.$store.commit('updateMessage', data);
         }).catch(function (error) {
           self.$Message.error('服务器异常');
@@ -154,7 +154,6 @@
               let self = this;
               this.$axios.post('/local/user/signIn', parame).then(function (response) {
                 let data = response.data;
-                // console.log(response);
                 self.loading=false
                 self.$store.commit('updateMessage', data);
                 if (data.cases == "1") {
@@ -165,7 +164,6 @@
                 }
               }).catch(function (error) {
                 self.$Message.error('服务器异常');
-                // console.log(error)
               });
             } else {
               this.$Message.error('输入数据不符合要求');
@@ -220,14 +218,14 @@
 
   @mixin log {
     height: 60px;
-    width: 157px;
+    width: 300px;
   }
 
   .log-box {
     @include log;
-    img {
-      @include log;
-    }
+    line-height: 60px;
+    font-size: 25px;
+    color: #2baee9;
   }
 
   .content-box {

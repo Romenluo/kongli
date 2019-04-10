@@ -16,7 +16,7 @@
         </FormItem>
       </Form>
       <div class="register" @click="register()">没有账号？去注册！</div>
-      <div class="register" @click="forgetPassword()">忘记密码？找回密码</div>
+      <!--<div class="register" @click="forgetPassword()">忘记密码？找回密码</div>-->
     </div>
 
   </div>
@@ -65,7 +65,6 @@
               }
             }).catch(function (error) {
               self.$Message.error('服务器异常');
-              // console.log(error)
             });
           } else {
             this.$Message.error('输入数据不符合要求');

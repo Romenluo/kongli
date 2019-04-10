@@ -34,9 +34,7 @@
         fd.append("upfile", e.file);//第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
 
         this.$axios.post('/local/upload/uploadImage', {params: fd}).then(res => {
-          console.log(res)
         }).catch(err => {
-          console.log(err);
         });
       }
     }

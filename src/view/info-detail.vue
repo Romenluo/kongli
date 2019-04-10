@@ -59,7 +59,6 @@
         this.$axios.post('/local/user/upVote', params).then(function (response) {
           self.upVote = response.data.upVote
           self.downVote = response.data.downVote
-          console.log(response)
         }).catch(function (error) {
           self.$Message.error('服务器异常')
         });

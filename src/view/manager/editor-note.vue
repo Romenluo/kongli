@@ -106,7 +106,6 @@
             self.$Message.error(data.msg);
           }
         }).catch(function (error) {
-          console.log(error)
           self.$Message.error("请求异常");
         });
       }

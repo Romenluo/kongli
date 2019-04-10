@@ -103,9 +103,7 @@
         let self = this
         this.$axios.post('/local/manager/findAllCategory').then(function (response) {
           self.category = response.data.categoryList;
-         // console.log(response)
         }).catch(function (error) {
-          console.log(error)
           self.$Message.error('服务器异常');
         });
       }

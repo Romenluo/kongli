@@ -68,9 +68,7 @@
         let self = this
         this.$axios.post('/local/manager/findAllCategory').then(function (response) {
           self.category = response.data.categoryList;
-          console.log(response)
         }).catch(function (error) {
-          console.log(error)
           self.$Message.error('服务器异常');
         });
       },
@@ -83,10 +81,8 @@
           id:id
         }
         this.$axios.post('/local/app/getNote',params).then(function (response) {
-          console.log(response)
           self.notes =  response.data
         }).catch(function (error) {
-          console.log(error)
           self.$Message.error('服务器异常');
         });
       },

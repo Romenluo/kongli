@@ -42,6 +42,9 @@
                 <div class="comment-content-text">{{item.content}}</div>
 
                 <div class="comment-foot">
+                  <div v-show="isdatele||(loginMessage.user.email==item.user.email)"  class="comment-upVote-downVote">
+                    <div @click="godelete(index)" title="删除"><i class="el-icon-delete"></i></div>
+                  </div>
                   <div class="comment-upVote-downVote">
                       <div @click="goUpVote(index,'upVote')"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></div>{{item.upVote}}
                   </div>
@@ -75,12 +78,10 @@
         commentContent: '',
         category: '',
         comment: []
-
       }
     },
     methods: {
       test() {
-        console.log(this.info)
       },
       getInfoData(item) {
         this.info = item
@@ -98,15 +99,14 @@
         let self = this
         this.$axios.post('/local/app/saveComment', params).then(function (response) {
           //self.category = response.data.categoryList;
-          console.log(response)
           let data = response.data
+          self.comment = data.commentList
           if (data.cases == '1') {
             self.$Message.success(data.msg);
           } else {
             self.$Message.error(data.msg);
           }
         }).catch(function (error) {
-          console.log(error)
           self.$Message.error('服务器异常');
         });
       },
@@ -126,12 +126,48 @@
         }
         let self = this
         this.$axios.post('/local/app/noteUpVote', params).then(function (response) {
-          /*self.upVote = response.data.upVote
-          self.downVote = response.data.downVote*/
-          console.log(response)
+
         }).catch(function (error) {
           self.$Message.error('服务器异常')
         });
+      },
+      /**
+       * 删除评论
+       * */
+      godelete(index){
+        let params = {
+          id: this.comment[index].id,
+          noteId: this.info.id
+        }
+        let self = this
+        this.$confirm('你确定要删除这条评论', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$axios.post('/local/manager/deleteComment', params).then(function (response) {
+            let data = response.data
+            if (data.cases == '1') {
+              self.comment = data.commentList
+              self.$message({
+                type: 'info',
+                message: data.msg
+              })
+            } else {
+              self.$message({
+                type: 'error',
+                message: data.msg
+              })
+            }
+          }).catch(function (error) {
+            self.$Message.error("请求异常");
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
       },
       /**
        * 评论点赞
@@ -149,9 +185,6 @@
         }
         let self = this
         this.$axios.post('/local/app/commentUpVote', params).then(function (response) {
-          /*self.upVote = response.data.upVote
-          self.downVote = response.data.downVote*/
-          console.log(response)
         }).catch(function (error) {
           self.$Message.error('服务器异常')
         });
@@ -175,6 +208,9 @@
         get() {
           return this.$store.state.message;
         }
+      },
+      isdatele(){
+        return (this.loginMessage.cases==1&&(this.loginMessage.user.roleId==1))
       }
     }
   }
