@@ -225,7 +225,7 @@
     @include log;
     line-height: 60px;
     font-size: 25px;
-    color: #2baee9;
+    color: #000000;
   }
 
   .content-box {
