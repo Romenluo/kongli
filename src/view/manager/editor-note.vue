@@ -97,10 +97,10 @@
         }
         let self = this
         this.$axios.post('/local/manager/saveNote',parameter).then(function (response) {
-          self.isSave = true
           self.loading = false
           let data = response.data
           if(data.cases=='1'){
+            self.isSave = true
             self.$Message.success(data.msg);
           }else {
             self.$Message.error(data.msg);
