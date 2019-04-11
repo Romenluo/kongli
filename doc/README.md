@@ -59,12 +59,26 @@
 ![vue-cli跨域问题](./image/cli.png)
 
 * 此项目使用到了element ui组件库。
->1. 安装element ui 依赖包 
+>1. 安装element ui 依赖包 npm i element-ui -S
+>2. 在main.js文件中全局引入，然后就可以在项目中使用element ui组件库
+```javascript
+  import ElementUI from 'element-ui'
+  import 'element-ui/lib/theme-chalk/index.css'
+  Vue.use(ElementUI)
+```
 
 ### 后端项目
 * 后端项目使用了spring boot 和 mybatis框架，spring boot主要是用来控制前端发送请求的，接收前端的数据，并返回
 给前端。mybatis框架主要是数据层，用来操作数据库，对数据库进行操作。如连接数据库和数据库的曾改删除。
-*　项目使用spring boot的快捷创建项目方法，[todo]
+* 项目使用spring boot的快捷创建项目方法
+
+进入此网站https://start.spring.io/创建spring boot项目
+. 创建项目如图
+
+![spring boot](./image/springboot.png)
+使用idea打开下载好的文件，然后idea编辑器自动下载下载依赖jar包，打开KongApplication文件，点击右边的绿色进行运行
+一个spring boot 项目就运行起来了
+[运行spring boot ]
 
 * 
 ### 实现思想
