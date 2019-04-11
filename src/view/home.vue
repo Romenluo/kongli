@@ -1,15 +1,18 @@
 <template>
   <div>
+    <!--此文件是首页，主体框架页面，如导航栏，log,登录弹窗等-->
     <Layout>
       <Header class="header-box">
         <Row>
           <Col span="6">
+            <!--log显示-->
             <div class="log-box">
               古茶树之乡--贵州普安
               <!--<img src="../assets/images/log.png"/>-->
             </div>
           </Col>
           <Col span="15" class="nav-box">
+            <!--导航栏-->
             <Menu mode="horizontal" :theme="theme1" active-name="home" @on-select="selectItem">
               <MenuItem name="home">
                 首页
@@ -23,12 +26,11 @@
               <MenuItem name="personal">
                 个人中心
               </MenuItem>
-              <!--<MenuItem name="about">
-                关于我们
-              </MenuItem>-->
             </Menu>
           </Col>
           <Col span="3">
+            <!--显示登录前和登录后的状态，使用v-if进行判断，如果loginMessage.cases==1表示登录
+            否则没有登录就显示 登录|注册-->
             <div class="is-login">
               <div class="wel-content" v-if="loginMessage.cases==1">
                 <span class="sing-box">欢迎{{loginMessage.user.petName}}</span>
@@ -48,13 +50,14 @@
           <router-view/>
         </div>
       </Content>
+      <!--网页底部，显示版权部分-->
       <Footer :style="{height:'80px',background:'#dedede',padding:'0px 0px'}">
         <div class="foot-box">
           {{copyright}} 版权归 Kong Li 所有
         </div>
       </Footer>
     </Layout>
-    <!--登录弹出框-->
+    <!--登录弹出框，点击登录时就弹出窗口，进行登录-->
     <div class="login-box" v-show="loginModel"  v-loading="loading"
          element-loading-text="登录中"
          element-loading-spinner="el-icon-loading"
@@ -110,6 +113,9 @@
       }
     },
     methods: {
+      /**
+       * 点击导航栏时发生的事件。进行路由跳转到相应的界面
+       * */
       selectItem(name) {
         if (name == 'home') {
           this.$router.replace({path: '/show'});
@@ -131,6 +137,9 @@
       login() {
         this.loginModel = true
       },
+      /**
+       * 退出登录
+       * */
       logout() {
         let self = this;
         this.$axios.post('/local/user/logout').then(function (response) {
@@ -140,7 +149,10 @@
           self.$Message.error('服务器异常');
         });
       },
-      /*点击登录按钮后登录。取消model框*/
+      /**
+      * 点击登录按钮后登录。取消model框，并向后台发送1请求，判断此用户是否存在或被禁用，如果
+      * 存在就进行登录
+      * */
       sigIn(name) {
         this.loading=true
         this.$refs[name].validate((valid) => {
@@ -250,7 +262,6 @@
     display: flex;
     justify-content: flex-end;
     .wel-content {
-      // background-color: #C3D5ED;
       .sing-box {
         &:hover {
           cursor: pointer;
