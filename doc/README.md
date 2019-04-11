@@ -47,4 +47,14 @@
 
 ### 前端项目
 
-* 前端项目是使用
+* 前端项目是使用vue-cli脚手架，创建前端项目
+
+>1. 创建一个vue项目需要nodejs，首先安装nodejs.
+>2. 安装vue-cli脚手架 npm install -g vue-cli
+>3. 选定一个目录，使用cmd输入指令 vue init webpack kongli,一路回车下载vue-cli脚手架，等待完成下载就创建好kongli项目。
+>4. 最后在kongli目录下使用cmd调出命令窗口，下载依赖包npm i 。然后输入 npm run dev 就可以运行项目
+
+* 前后分离开发需要解决vue-cli跨域问题如下：
+
+![vue-cli跨域问题](./image/cli.png)
+
