@@ -78,7 +78,7 @@
 ![spring boot](./image/springboot.png)
 使用idea打开下载好的文件，然后idea编辑器自动下载下载依赖jar包，打开KongApplication文件，点击右边的绿色进行运行
 一个spring boot 项目就运行起来了
-[运行spring boot ]
+![运行spring boot ](./image/springRun.png)
 
 * 
 ### 实现思想
