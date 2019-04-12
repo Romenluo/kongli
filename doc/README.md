@@ -80,7 +80,26 @@
 一个spring boot 项目就运行起来了
 ![运行spring boot ](./image/springRun.png)
 
-* 
+* 后端使用到了三层架构模式，分别是数据访问层，业务逻辑层，表示层。数据访问层主要数用来连接数据库和操作数据库。
+使用了mybatis框架连接数据库和操作数据库，对数据进行曾改删查。在项目中dao包表示数据访问层。业务逻辑层主要处理业务
+逻辑的代码，如用户保存时对密码加密，发表评论添加时间等逻辑处理，项目中service包表示业务逻辑。表示层是与页面交互，
+主要接收页面传递的数据和返回数据到页面，此项目中相当于接口处理。对页面发送过来的数据进行处理，并与业务逻辑层进行交互。
+将处理好的数据返回到前端页面。三层架构之间的关系是表示层负责与页面交互并调用业务逻辑层的方法进行处理，业务逻辑层与数据连接处
+交互，将处理好的数据调用数据连接层的方法对数据库进行操作。因此三层之间的关系是表示层与业务逻辑层有连接，业务逻辑层与数据访问层
+连接，表示层与数据访问层互不干涉。
+
+* 项目主要目录
+
+![后台项目目录](./image/mvn.png)
+
+其中Java文件下是主要实现代码包com.li.kong为Java实现代码。KongApplication文件是启动spring boot
+项目文件。dao包为数据访问层，操作数据库的Java代码。doc为说明文档包。entity是实体类包，创建JavaBeen.
+exception是自定义异常类，有DataAccessException、DaoException、ServiceException分别是抛出数据库操作
+异常，dao层异常和service异常。mapper是mybatis框架操作数据的接口。与mybatis配置文件相对应，并在dao中进行调用。
+service包存储业务逻辑层的代码。sql包是创建数据库文件。utils是抽出来的工具包，如字符串处理。web包为表示层代码，
+负责编写与前端交互的接口。resources为资源文件其中com.li.kong.mapper为mybatis配置包，存储数据库表对应的配置文件
+对数据库进行操作，与Java文件下的mapper包下的接口对应。static.image存储图片文件。application.propertis
+文件是spring boot配置文件，配置发送邮箱名，密码和服务器等。mybatis-config.xml文件时mybatis框架配置连接数据库文件。
 ### 实现思想
 
 #### 登录实现思想
