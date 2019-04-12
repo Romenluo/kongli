@@ -100,6 +100,7 @@ service包存储业务逻辑层的代码。sql包是创建数据库文件。util
 负责编写与前端交互的接口。resources为资源文件其中com.li.kong.mapper为mybatis配置包，存储数据库表对应的配置文件
 对数据库进行操作，与Java文件下的mapper包下的接口对应。static.image存储图片文件。application.propertis
 文件是spring boot配置文件，配置发送邮箱名，密码和服务器等。mybatis-config.xml文件时mybatis框架配置连接数据库文件。
+其他文件为spring boot项目框架自带的文件。
 ### 实现思想
 
 #### 登录实现思想
