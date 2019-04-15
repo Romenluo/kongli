@@ -180,3 +180,24 @@ true后，点击保存按钮就直接跳出方法，不再继续往下执行，�
 对文章进行操作，只是后台执行的时候执行的事update操作。前端请求的接口与保存文章的接口不同。修改内容可以重复点击修改操作。
 
 
+
+### 开发工具
+
+在此系统中使用到的开发工具有IDEA、maven、MySQL数据库、SQLyog、tomcat服务器、Visio2013、Google Chrome、Photoshop等工具
+
+>1. idea
+
+IDEA是一款智能集成开发工具，JetBrains公司的产品。可以用来开发Java项目、Android项目、vue前端项目。
+是一种商业化销售的Java集成开发环境工具软件。IDEA可以智能集成代码，代码提示、路径生成、自动检测文件等。
+在业界被公认为是Java最好的集成环境。使用idea可以开发vue-cli项目，但是需要安装vuejs插件才能是vue文件中的
+代码高亮和提示代码。idea中集成了Java、HTML、css、JavaScript等热门语言，在开发中更方便编写代码和提高开发效率。
+在idea中导入spring boot项目会自动检查依赖包和下载依赖包，运行spring boot项目比较方便快捷。因此选择idea工具作为
+代码编写工具。
+
+>2. maven
+Maven项目管理工具,是由Apache软件基金会提供用于管理Java相关的项目，如spring boot项目、其Web项目等。
+Maven是一个项目管理及自由构建工具。在此系统是spring boot项目，所以使用到了maven项目管理工具。
+Maven将项目中使用到的依赖jar包放到一个单独文件中，通过配置从本地仓库文件获取jar包与项目相关联，使jar包可用。
+在使用maven时需要选择仓库配置文件setting.xml，默认链接下载是从中央仓库获取jar包，由于速度比较慢需要设置链接到国内alibaba，
+如果仓库中没有需要的jar包，需要在项目下的pom.xml文件中添加相应的配置才能下载jar包，
+IDEA编程工具会自动将需要的jar包下载到本地仓库。
