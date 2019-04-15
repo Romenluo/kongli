@@ -183,7 +183,7 @@ true后，点击保存按钮就直接跳出方法，不再继续往下执行，�
 
 ### 开发工具
 
-在此系统中使用到的开发工具有IDEA、maven、MySQL数据库、SQLyog、tomcat服务器、Visio2013、Google Chrome、Photoshop等工具
+在此系统中使用到的开发工具有IDEA、maven、MySQL数据库、SQLyog、tomcat服务器、Office Visio、Google Chrome、PhotoShop等工具
 
 1. idea
 
@@ -210,7 +210,28 @@ MySQL数据库是Oracle公司的一个开源代码的关系数据库管理系统
 现在被许多大公司使用，使用率超过sql server,2018数据库使用排行榜仅次于Oracle数据库为第二。其主要的优点
 性能高、移植性好，成本低、可靠性好适合使用在中小型网站的后台数据库管理。
 
->4. SQLyog
+4. SQLyog
 
 SQLyog是Webyog公司的产品，主要用于MySQL数据库可视化管理数据。使用SQLyog可以远程维护MySQL数据库。使用户甩开命令行，减少
 数据库操错误，提高工作效率。
+
+5. tomcat服务器
+
+Tomcat服务器是Apache基金会的一个开源项目。主要用来运行后台项目，后台Java项目需要借助tomcat服务器才能运行，在spring boot项目中，嵌入
+了tomcat服务器，所以不需要在项目外面单独配置tomcat服务器。
+
+6. Office Visio
+
+Office Visio是Microsoft的产品，属于office系列，用于绘制流程图和示意图的软件。在此项目中使用Office Visio绘制系统功能图、
+系统流程图、用例图和数据库E-R图。
+
+7. Google Chrome
+
+Google Chrome是Google公司的浏览器，是现在的主浏览器，在各大浏览器中排名第一。由于简洁的界面和强悍的V8引擎，受到广大的用户喜爱。
+在此项目中主要使用Google Chrome运行项目、调试界面和测试使用。此项目使用vuejs,所以只能在Google Chrome、火狐浏览器、IE8以上
+浏览器上面运行，不支持IE8一下浏览器。
+
+8. PhotoShop
+
+PhotoShop 是Adobe Systems公司的产品，一般简称“ps”。是一款图像处理软件，用于剪切图片、编辑图片、压缩图片使用。在此项目中
+使用到大量图片，需要借助PhotoShop对图片进行优化处理。
