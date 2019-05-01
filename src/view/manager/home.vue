@@ -7,7 +7,13 @@
           <div v-if="item.value=='userManager'">
               <user-manager :list="userDate"></user-manager>
           </div>
-          <div v-else-if="item.value=='addNote'">
+          <div v-else-if="item.value=='note'">
+            <note-m :category="category"></note-m>
+          </div>
+          <div v-else-if="item.value=='info'">
+            <info-m></info-m>
+          </div>
+          <!--<div v-else-if="item.value=='addNote'">
             <editor-note :category="category"></editor-note>
           </div>
           <div v-else-if="item.value=='addInformation'">
@@ -18,7 +24,7 @@
           </div>
           <div v-else-if="item.value=='noteManager'">
             <manager-note></manager-note>
-          </div>
+          </div>-->
         </Tab-pane>
       </Tabs>
     </div>
@@ -31,9 +37,13 @@
   import AddInformation from './add-information'
   import InfoManager from './info-manager'
   import ManagerNote from './manager-note'
+  import NoteM from './note'
+  import InfoM from './info'
   export default {
     name: "home",
     components:{
+      NoteM,
+      InfoM,
       ManagerNote,
       UserManager,
       EditorNote,
@@ -45,9 +55,17 @@
         tabDate:[
           {
             value: "userManager",
-            name: '用户管理'
+            name: '会员管理'
           },
           {
+            value: "note",
+            name: '文章管理'
+          },
+          {
+            value: "info",
+            name: '实时资讯管理'
+          }
+          /*{
             value: "addNote",
             name: '添加文章'
           },
@@ -62,7 +80,7 @@
           {
             value: "informationManager",
             name: '时日资讯管理'
-          }
+          }*/
         ],
         userDate: [],
         category:[]
@@ -73,10 +91,13 @@
         if(this.tabDate[val].value=='userManager'){
           this.findUser();
         }
-        if(this.tabDate[val].value=='addNote'){
+        if(this.tabDate[val].value=='note'){
           this.getCategory()
         }
       },
+      /**
+       * 查询所有用户
+       * */
       findUser() {
         let self = this
         this.$axios.post('/local/manager/findAllUser').then(function (response) {
@@ -99,6 +120,9 @@
           self.$Message.error('服务器异常');
         });
       },
+      /**
+       * 查询所有分类
+       */
       getCategory(){
         let self = this
         this.$axios.post('/local/manager/findAllCategory').then(function (response) {
